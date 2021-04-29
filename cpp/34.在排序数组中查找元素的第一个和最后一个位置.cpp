@@ -8,6 +8,7 @@
 class Solution {
 public:
     vector<int> searchRange(vector<int>& nums, int target) {
+        // 二分搜索
         vector<int> result(2);
 
         if (nums.size() == 0)
