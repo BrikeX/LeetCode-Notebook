@@ -8,28 +8,44 @@
 class Solution {
 public:
     vector<int> twoSum(vector<int>& nums, int target) {
-        vector<int> result(2);
+        // 哈希表
+        unordered_map<int, int> hash_table;
 
-        for (size_t i = 0; i < nums.size() - 1; i++)
+        for (int i = 0; i < nums.size(); i++)
         {
-            for (size_t j = i + 1; j < nums.size(); j++)
+            auto it = hash_table.find(target - nums[i]);
+
+            if (it != hash_table.end())
             {
-                if (nums[i] + nums[j] == target)
-                {
-                    result[0] = i;
-
-                    result[1] = j;
-
-                    return result;
-                }
+                return {it->second, i};
             }
+            
+            hash_table[nums[i]] = i;
         }
 
-        result.clear();
-        
-        return result;
+        return {};        
 
-        // improvements remain
+        // 暴力枚举
+        // vector<int> result(2);
+
+        // for (size_t i = 0; i < nums.size() - 1; i++)
+        // {
+        //     for (size_t j = i + 1; j < nums.size(); j++)
+        //     {
+        //         if (nums[i] + nums[j] == target)
+        //         {
+        //             result[0] = i;
+
+        //             result[1] = j;
+
+        //             return result;
+        //         }
+        //     }
+        // }
+
+        // result.clear();
+        
+        // return result;
     }
 };
 // @lc code=end
