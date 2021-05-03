@@ -44,6 +44,8 @@ public:
             result = max(result, right - left);
         }
 
+        return result;
+
         // 暴力循环
         // int result = 1;
 
@@ -103,7 +105,7 @@ public:
         //     }
         // }
 
-        return result;
+        // return result;
     }
 };
 // @lc code=end
