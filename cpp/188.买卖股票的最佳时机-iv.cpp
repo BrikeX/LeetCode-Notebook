@@ -32,6 +32,10 @@ public:
 
         for (size_t i = 0; i < prices.size(); i++)
         {
+            profit[i][0][0] = 0;
+
+            profit[i][0][1] = INT_MIN;
+
             for (size_t k = k_max; k > 0; k--)
             {                
                 if (i == 0)
@@ -41,13 +45,6 @@ public:
                     profit[i][k][1] = -prices[i];
 
                     continue;
-                }
-                
-                if (k == 1)
-                {
-                    profit[i-1][k-1][0] = 0;
-
-                    profit[i-1][k-1][1] = INT_MIN;
                 }
                 
                 profit[i][k][0] = max(profit[i-1][k][0], profit[i-1][k][1] + prices[i]);
