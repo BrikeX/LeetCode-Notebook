@@ -7,6 +7,17 @@
 // @lc code=start
 class Solution {
 public:
+    vector<vector<int>> permute(vector<int>& nums) {
+        // 回溯算法
+        vector<int> track;
+
+        vector<vector<int>> result;
+
+        backTracking(nums, track, result);
+
+        return result;
+    }
+
     void backTracking(vector<int>& nums, vector<int>& track, vector<vector<int>>& result)
     {
         if (track.size() == nums.size())
@@ -33,17 +44,6 @@ public:
                 track.pop_back();
             }
         }
-    }
-
-    vector<vector<int>> permute(vector<int>& nums) {
-        // 回溯算法
-        vector<int> track;
-
-        vector<vector<int>> result;
-
-        backTracking(nums, track, result);
-
-        return result;
     }
 };
 // @lc code=end
