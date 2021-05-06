@@ -7,7 +7,7 @@
 // @lc code=start
 class Solution {
 public:
-    void backTack(vector<int>& nums, vector<int>& track, vector<vector<int>>& result)
+    void backTracking(vector<int>& nums, vector<int>& track, vector<vector<int>>& result)
     {
         if (track.size() == nums.size())
         {
@@ -28,7 +28,7 @@ public:
             {
                 track.push_back(nums[i]);
 
-                backTack(nums, track, result);
+                backTracking(nums, track, result);
 
                 track.pop_back();
             }
@@ -41,7 +41,7 @@ public:
 
         vector<vector<int>> result;
 
-        backTack(nums, track, result);
+        backTracking(nums, track, result);
 
         return result;
     }
