@@ -8,6 +8,7 @@
 class Solution {
 public:
     vector<vector<string>> solveNQueens(int n) {
+        // 回溯算法
         vector<vector<string>> result;
 
         vector<string> board(n, string(n, '.'));
