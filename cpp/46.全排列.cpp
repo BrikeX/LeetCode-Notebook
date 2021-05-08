@@ -29,9 +29,7 @@ public:
         
         for (size_t i = 0; i < nums.size(); i++)
         {
-            auto it = find(track.begin(), track.end(), nums[i]);
-
-            if (it != track.end())
+            if (find(track.begin(), track.end(), nums[i]) != track.end())
             {
                 continue;
             }
