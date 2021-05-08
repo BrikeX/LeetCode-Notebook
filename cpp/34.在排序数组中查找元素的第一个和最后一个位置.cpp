@@ -40,12 +40,14 @@ public:
                 right = mid - 1;
             }
         }
-
-        result[0] = left;
         
         if (left > nums.size() - 1 || nums[left] != target)
         {
             result[0] = -1;
+        }
+        else
+        {
+            result[0] = left;
         }
         
         // right boundary
@@ -66,12 +68,14 @@ public:
                 right = mid - 1;
             }
         }
-        
-        result[1] = right;
 
         if (right < 0 || nums[right] != target)
         {
             result[1] = -1;
+        }
+        else
+        {
+            result[1] = right;
         }
 
         return result;
