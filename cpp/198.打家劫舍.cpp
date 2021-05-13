@@ -8,15 +8,29 @@
 class Solution {
 public:
     int rob(vector<int>& nums) {
-        // DP，自底向上
-        vector<int> result(nums.size() + 2, 0);
+        // DP，自底向上，内存优化
+        int dp_i = 0, dp_i_1 = 0, dp_i_2 = 0;
 
         for (int i = nums.size() - 1; i >= 0; i--)
         {
-            result[i] = max(result[i + 1], nums[i] + result[i + 2]);
+            dp_i = max(dp_i_1, nums[i] + dp_i_2);
+
+            dp_i_2 = dp_i_1;
+
+            dp_i_1 = dp_i;
         }
         
-        return result[0];
+        return dp_i;
+        
+        // // DP，自底向上
+        // vector<int> result(nums.size() + 2, 0);
+
+        // for (int i = nums.size() - 1; i >= 0; i--)
+        // {
+        //     result[i] = max(result[i + 1], nums[i] + result[i + 2]);
+        // }
+        
+        // return result[0];
 
         // // DP，自顶向下
         // vector<int> memo(nums.size(), -1);
