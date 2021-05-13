@@ -8,33 +8,43 @@
 class Solution {
 public:
     int rob(vector<int>& nums) {
-        // DP，自顶向下
-        vector<int> memo(nums.size(), -1);
+        // DP，自底向上
+        vector<int> result(nums.size() + 2, 0);
 
-        return dp(nums, memo, 0);
-    }
-
-    int dp(vector<int>& nums, vector<int>& memo, int start)
-    {
-        if (start >= nums.size())
+        for (int i = nums.size() - 1; i >= 0; i--)
         {
-            return 0;
+            result[i] = max(result[i + 1], nums[i] + result[i + 2]);
         }
         
-        if (memo[start] != -1)
-        {
-            return memo[start];
-        }
-        else
-        {
-            int result = max(dp(nums, memo, start + 1),
-                             dp(nums, memo, start + 2) + nums[start]);
+        return result[0];
 
-            memo[start] = result;
+        // // DP，自顶向下
+        // vector<int> memo(nums.size(), -1);
 
-            return result;
-        }
+        // return dp(nums, memo, 0);
     }
+
+    // int dp(vector<int>& nums, vector<int>& memo, int start)
+    // {
+    //     if (start >= nums.size())
+    //     {
+    //         return 0;
+    //     }
+        
+    //     if (memo[start] != -1)
+    //     {
+    //         return memo[start];
+    //     }
+    //     else
+    //     {
+    //         int result = max(dp(nums, memo, start + 1),
+    //                          dp(nums, memo, start + 2) + nums[start]);
+
+    //         memo[start] = result;
+
+    //         return result;
+    //     }
+    // }
 };
 // @lc code=end
 
