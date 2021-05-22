@@ -17,30 +17,87 @@
  */
 class Solution {
 public:
-    ListNode* left;
-
     bool isPalindrome(ListNode* head) {
-        // 递归算法
-        left = head;
+        // 迭代算法
+        ListNode *slow = head, *fast = head;
 
-        return traverse(head);
-    }
-
-    bool traverse(ListNode* right)
-    {
-        if (!right)
+        while (fast && fast->next)
         {
-            return true;
+            slow = slow->next;
+
+            fast = fast->next->next;
         }
         
-        bool result = traverse(right->next);
+        if (fast)
+        {
+            slow = slow->next;
+        }
+        
+        ListNode* left = head;
 
-        result = result && (right->val == left->val);
+        ListNode* right = reverse(slow);
 
-        left = left->next;
+        while (right)
+        {
+            if (left->val != right->val)
+            {
+                return false;
+            }
+            
+            left = left->next;
 
-        return result;
+            right = right->next;
+        }
+        
+        return true;
     }
+
+    ListNode* reverse(ListNode* left)
+    {
+        ListNode* pre = nullptr;
+
+        ListNode* cur = left;
+
+        ListNode* nxt;
+
+        while (cur)
+        {
+            nxt = cur->next;
+
+            cur->next = pre;
+
+            pre = cur;
+
+            cur = nxt;
+        }
+        
+        return pre;
+    }
+
+    // ListNode* left;
+
+    // bool isPalindrome(ListNode* head) {
+    //     // 递归算法
+    //     left = head;
+
+    //     return traverse(head);
+    // }
+
+    // bool traverse(ListNode* right)
+    // {
+    //     if (!right)
+    //     {
+    //         return true;
+    //     }
+        
+    //     bool result = traverse(right->next);
+
+    //     result = result && (right->val == left->val);
+
+    //     left = left->next;
+
+    //     return result;
+    // }
 };
 // @lc code=end
 
