@@ -23,7 +23,7 @@ public:
     int rank;
 
     int kthSmallest(TreeNode* root, int k) {
-        // BST 的中序遍历是升序的
+        // BST 先左侧再右侧进行中序遍历，是升序的
         traverse(root, k);
 
         return result;
