@@ -55,8 +55,72 @@ public:
     }
 
     int findTargetSumWays(vector<int>& nums, int target) {
-        // DP
-        return dp(nums, 0, target);
+        // // DP
+        // return dp(nums, 0, target);
+
+        // DP，背包问题
+        int sum = 0;
+
+        for (size_t i = 0; i < nums.size(); i++)
+        {
+            sum += nums[i];
+        }
+        
+        if (sum < target || (sum + target) % 2)
+        {
+            return 0;
+        }
+        
+        return subsets(nums, (sum + target) / 2);
+    }
+
+    int subsets(vector<int>& nums, int sum) 
+    {
+        // vector<vector<int>> dp_table(nums.size() + 1, vector<int>(sum + 1));
+
+        // for (size_t i = 0; i < dp_table.size(); i++)
+        // {
+        //     dp_table[i][0] = 1;
+        // }
+        
+        // for (int i = 1; i < dp_table.size(); i++)
+        // {
+        //     for (int j = 0; j < dp_table[0].size(); j++)
+        //     {
+        //         if (j >= nums[i - 1])
+        //         {
+        //             dp_table[i][j] = dp_table[i - 1][j] + 
+        //                              dp_table[i - 1][j - nums[i - 1]];
+        //         }
+        //         else
+        //         {
+        //             dp_table[i][j] = dp_table[i - 1][j];
+        //         }
+        //     }
+        // }
+        
+        // return dp_table[nums.size()][sum];
+
+        vector<int> dp_table(sum + 1);
+
+        dp_table[0] = 1;
+
+        for (int i = 1; i <= nums.size(); i++)
+        {
+            for (int j = sum; j >= 0; j--)
+            {
+                if (j >= nums[i - 1])
+                {
+                    dp_table[j] = dp_table[j] + dp_table[j - nums[i - 1]];
+                }
+                else
+                {
+                    dp_table[j] = dp_table[j];
+                }
+            }
+        }
+        
+        return dp_table[sum];
     }
 };
 // @lc code=end
