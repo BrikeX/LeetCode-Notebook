@@ -10,10 +10,29 @@ public:
     vector<int> memo;
 
     int jump(vector<int>& nums) {
-        // DP
-        memo.resize(nums.size(), nums.size());
+        // 贪心算法
+        int end = 0, furthest = 0;
 
-        return dp(nums, 0);
+        int jumps = 0;
+
+        for (int i = 0; i < nums.size() - 1; i++)
+        {
+            furthest = max(furthest, i + nums[i]);
+
+            if (end == i)
+            {
+                jumps++;
+
+                end = furthest;
+            }
+        }
+        
+        return jumps;
+
+        // // DP
+        // memo.resize(nums.size(), nums.size());
+
+        // return dp(nums, 0);
     }
 
     int dp(vector<int>& nums, int p)
