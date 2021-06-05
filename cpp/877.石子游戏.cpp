@@ -20,11 +20,11 @@ public:
 
         int left, right;
 
-        for (int l = 2; l <= piles.size(); l++)
+        for (int l = 1; l < piles.size(); l++)
         {
-            for (int i = 0; i <= piles.size() - l; i++)
+            for (int i = 0; i < piles.size() - l; i++)
             {
-                int j = l + i - 1;
+                int j = l + i;
 
                 left = piles[i] + dp_table[i + 1][j].second;
 
