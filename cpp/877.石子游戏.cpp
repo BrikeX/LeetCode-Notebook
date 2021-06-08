@@ -8,6 +8,9 @@
 class Solution {
 public:
     bool stoneGame(vector<int>& piles) {
+        // // 分成奇数堆、偶数堆，哪堆大拿哪堆
+        // return true;
+
         // DP
         vector<vector<pair<int, int>>> dp_table(piles.size(), vector<pair<int, int>>(piles.size()));
 
