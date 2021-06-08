@@ -27,22 +27,20 @@ public:
     
     /** Returns a random node's value. */
     int getRandom() {
-        int result = ptr->val;
+        int result;
 
-        ListNode* head = ptr->next;
+        ListNode* head = ptr;
 
-        int i = 2;
+        int i = 0;
 
         while (head)
         {
-            if (rand() % i == 0)
+            if (rand() % ++i == 0)
             {
                 result = head->val;
             }
             
             head = head->next;
-
-            i++;
         }
         
         return result;
