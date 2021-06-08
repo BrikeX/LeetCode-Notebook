@@ -27,6 +27,7 @@ public:
     
     /** Returns a random node's value. */
     int getRandom() {
+        // 水塘抽样算法
         int result;
 
         ListNode* head = ptr;
