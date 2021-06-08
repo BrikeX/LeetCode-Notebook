@@ -8,7 +8,7 @@
 class Solution {
 public:
     int subarraySum(vector<int>& nums, int k) {
-        // 哈希表
+        // 前缀和，哈希表
         unordered_map<int, int> memo;
 
         memo.emplace(0, 1);
