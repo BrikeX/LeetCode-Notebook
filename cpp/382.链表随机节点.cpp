@@ -21,6 +21,8 @@ public:
         Note that the head is guaranteed to be not null, so it contains at least one node. */
     Solution(ListNode* head) {
         ptr = head;
+
+        srand(time(NULL));
     }
     
     /** Returns a random node's value. */
@@ -48,8 +50,6 @@ public:
 
 private:
     ListNode* ptr;
-
-    // srand(time(NULL));
 };
 
 /**
