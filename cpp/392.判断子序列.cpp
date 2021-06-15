@@ -53,7 +53,7 @@ public:
         // return i == s.size();
     }
 
-    int leftBoundary(vector<int> vec, int target)
+    int leftBoundary(vector<int>& vec, int target)
     {
         int left = 0, right = vec.size() - 1;
 
