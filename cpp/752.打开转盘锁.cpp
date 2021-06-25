@@ -8,6 +8,7 @@
 class Solution {
 public:
     int openLock(vector<string>& deadends, string target) {
+        // BFS
         string start = "0000";
 
         if (target == start)
