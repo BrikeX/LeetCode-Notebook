@@ -8,157 +8,94 @@
 class Solution {
 public:
     int openLock(vector<string>& deadends, string target) {
-        // Bidirectional BFS
-        unordered_set<string> set_1, set_2;
+        string start = "0000";
+
+        if (target == start)
+        {
+            return 0;
+        }
+
+        unordered_set<string> forbidden(deadends.begin(), deadends.end());
+
+        if (forbidden.count(start))
+        {
+            return -1;
+        }
 
         unordered_set<string> visited;
 
-        unordered_set<string> set_tmp;
-
-        set_1.emplace("0000");
-
-        set_2.emplace(target);
+        queue<string> passwd_q;
         
+        passwd_q.push(start);
+
+        string passwd;
+
         int step = 0;
 
-        string str_up, str_down;
+        int q_size;
 
-        while (!set_1.empty() && !set_2.empty())
-        {   
-            set_tmp.clear();
-            
-            for (const string& str : set_1)
+        while (!passwd_q.empty())
+        {
+            q_size = passwd_q.size();
+
+            for (size_t i = 0; i < q_size; i++)
             {
-                if (set_2.find(str) != set_2.end())
+                passwd = passwd_q.front();
+
+                if (passwd == target)
                 {
                     return step;
                 }
-                
-                if (find(deadends.begin(), deadends.end(), str) != deadends.end())
+
+                passwd_q.pop();
+
+                if (visited.count(passwd) || forbidden.count(passwd))
                 {
                     continue;
                 }
-                
-                visited.emplace(str);
 
-                for (size_t i = 0; i < str.size(); i++)
+                visited.emplace(passwd);
+
+                for (size_t j = 0; j < passwd.size(); j++)
                 {
-                    str_up = plusOne(str, i);
+                    passwd_q.push(plusOne(passwd, j));
 
-                    if (visited.find(str_up) == visited.end())
-                    {
-                        set_tmp.emplace(str_up);
-                    }
-                    
-                    str_down = minusOne(str, i);
-
-                    if (visited.find(str_down) == visited.end())
-                    {
-                        set_tmp.emplace(str_down);
-                    }
+                    passwd_q.push(minusOne(passwd, j));
                 }
             }
-            
+
             step++;
-
-            set_1 = set_2;
-
-            set_2 = set_tmp;
         }
         
         return -1;
-
-        // // BFS
-        // queue<string> q_password;
-
-        // q_password.push("0000");
-
-        // unordered_set<string> visited;
-
-        // visited.emplace(q_password.front());
-
-        // int step = 0;
-
-        // int q_size;
-
-        // string str_tmp;
-
-        // string str_up, str_down;
-
-        // while (!q_password.empty())
-        // {
-        //     q_size = q_password.size();
-
-        //     for (size_t i = 0; i < q_size; i++)
-        //     {
-        //         str_tmp = q_password.front();
-
-        //         q_password.pop();
-
-        //         if (str_tmp == target)
-        //         {
-        //             return step;
-        //         }
-                
-        //         if (find(deadends.begin(), deadends.end(), str_tmp) != deadends.end())
-        //         {
-        //             continue;
-        //         }
-                
-        //         for (size_t j = 0; j < str_tmp.size(); j++)
-        //         {
-        //             str_up = plusOne(str_tmp, j);
-
-        //             if (visited.find(str_up) == visited.end())
-        //             {
-        //                 q_password.push(str_up);
-
-        //                 visited.emplace(str_up);
-        //             }
-                    
-        //             str_down = minusOne(str_tmp, j);
-
-        //             if (visited.find(str_down) == visited.end())
-        //             {
-        //                 q_password.push(str_down);
-
-        //                 visited.emplace(str_down);
-        //             }
-        //         }
-        //     }
-            
-        //     step++;
-        // }
-        
-        // return -1;
     }
 
-    string plusOne(string str, const size_t& j)
+    string plusOne(string passwd, size_t index)
     {
-        if (str[j] == '9')
+        if (passwd[index] == '9')
         {
-            str[j] = '0';
+            passwd[index] = '0';
         }
         else
         {
-            str[j] += 1;
+            passwd[index]++;
         }
         
-        return str;
+        return passwd;
     }
 
-    string minusOne(string str, const size_t& j)
+    string minusOne(string passwd, size_t index)
     {
-        if (str[j] == '0')
+        if (passwd[index] == '0')
         {
-            str[j] = '9';
+            passwd[index] = '9';
         }
         else
         {
-            str[j] -= 1;
+            passwd[index]--;
         }
         
-        return str;
+        return passwd;
     }
 };
 // @lc code=end
