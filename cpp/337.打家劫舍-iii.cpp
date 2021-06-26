@@ -18,31 +18,57 @@
  */
 class Solution {
 public:
-    unordered_map<TreeNode*, int> memo;
-
     int rob(TreeNode* root) {
         // DP
-        if (root == nullptr)
+        vector<int> result = dp(root);
+
+        return max(result[0], result[1]);
+
+        // // DP
+        // if (root == nullptr)
+        // {
+        //     return 0;
+        // }
+        
+        // auto it = memo.find(root);
+
+        // if (it != memo.end())
+        // {
+        //     return it->second;
+        // }
+
+        // int do_rob = root->val + 
+        //              (root->left == nullptr ? 0 : rob(root->left->left) + rob(root->left->right)) + 
+        //              (root->right == nullptr ? 0 : rob(root->right->left) + rob(root->right->right));
+        
+        // int not_rob = rob(root->left) + rob(root->right);
+
+        // int result = max(do_rob, not_rob);
+
+        // memo[root] = result;
+
+        // return result;
+    }
+
+private:
+    // unordered_map<TreeNode*, int> memo;
+
+    vector<int> dp(TreeNode* root)
+    {
+        if (!root)
         {
-            return 0;
+            return {0, 0};
         }
         
-        auto it = memo.find(root);
+        vector<int> result(2);
 
-        if (it != memo.end())
-        {
-            return it->second;
-        }
+        vector<int> left = dp(root->left);
 
-        int do_rob = root->val + 
-                     (root->left == nullptr ? 0 : rob(root->left->left) + rob(root->left->right)) + 
-                     (root->right == nullptr ? 0 : rob(root->right->left) + rob(root->right->right));
-        
-        int not_rob = rob(root->left) + rob(root->right);
+        vector<int> right = dp(root->right);
 
-        int result = max(do_rob, not_rob);
+        result[0] = max(left[0], left[1]) + max(right[0], right[1]);
 
-        memo[root] = result;
+        result[1] = root->val + left[0] + right[0];
 
         return result;
     }
