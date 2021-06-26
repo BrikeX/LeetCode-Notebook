@@ -8,7 +8,7 @@
 class Solution {
 public:
     int rob(vector<int>& nums) {
-        // DP，自底向上，正序
+        // DP，自底向上，正序，空间优化
         if (nums.empty())
         {
             return 0;
@@ -20,19 +20,49 @@ public:
         {
             return nums.front();
         }
+
+        int dp_1 = nums[0];
         
-        vector<int> dp(nums.size(), 0);
+        int dp_2 = max(nums[0], nums[1]);
 
-        dp[0] = nums[0];
-
-        dp[1] = max(nums[0], nums[1]);
+        int dp_tmp;
 
         for (size_t i = 2; i < nums_size; i++)
         {
-            dp[i] = max(nums[i] + dp[i - 2], dp[i - 1]);
+            dp_tmp = dp_2;
+
+            dp_2 = max(nums[i] + dp_1, dp_2);
+
+            dp_1 = dp_tmp;
         }
         
-        return dp.back();
+        return dp_2;
+
+        // // DP，自底向上，正序
+        // if (nums.empty())
+        // {
+        //     return 0;
+        // }
+        
+        // int nums_size = nums.size();
+
+        // if (nums_size == 1)
+        // {
+        //     return nums.front();
+        // }
+        
+        // vector<int> dp(nums.size(), 0);
+
+        // dp[0] = nums[0];
+
+        // dp[1] = max(nums[0], nums[1]);
+
+        // for (size_t i = 2; i < nums_size; i++)
+        // {
+        //     dp[i] = max(nums[i] + dp[i - 2], dp[i - 1]);
+        // }
+        
+        // return dp.back();
 
         // // DP，自底向上，内存优化
         // int dp_i = 0, dp_i_1 = 0, dp_i_2 = 0;
