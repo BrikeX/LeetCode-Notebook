@@ -8,6 +8,7 @@
 class Solution {
 public:
     int search(vector<int>& nums, int target) {
+        // 二分搜索
         int left = 0;
 
         int right = nums.size() - 1;
