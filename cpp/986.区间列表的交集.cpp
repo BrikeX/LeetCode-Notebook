@@ -8,6 +8,7 @@
 class Solution {
 public:
     vector<vector<int>> intervalIntersection(vector<vector<int>>& firstList, vector<vector<int>>& secondList) {
+        // 双指针算法
         vector<vector<int>> result;
 
         if (firstList.empty() || secondList.empty())
