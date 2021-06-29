@@ -19,52 +19,60 @@
 class Solution {
 public:
     int minDepth(TreeNode* root) {
-        // BFS
         if (root == nullptr)
         {
             return 0;
         }
-        
-        queue<TreeNode*> q_tree;
 
-        q_tree.push(root);
-
-        int depth = 1;
-
-        TreeNode* node_tmp;
-
-        int tree_size;
-
-        while (!q_tree.empty())
+        // 递归算法
+        if (root->left && root->right)
         {
-            tree_size = q_tree.size();
-
-            for (size_t i = 0; i < tree_size; i++)
-            {
-                node_tmp = q_tree.front();
-
-                q_tree.pop();
-
-                if (node_tmp->left == nullptr && node_tmp->right == nullptr)
-                {
-                    return depth;
-                }
-                
-                if (node_tmp->left != nullptr)
-                {
-                    q_tree.push(node_tmp->left);
-                }
-                
-                if (node_tmp->right != nullptr)
-                {
-                    q_tree.push(node_tmp->right);
-                }
-            }
-
-            depth++;
+            return 1 + min(minDepth(root->left), minDepth(root->right));
         }
         
-        return depth;
+        return 1 + minDepth(root->left) + minDepth(root->right);
+
+        // // BFS
+        // queue<TreeNode*> q_tree;
+
+        // q_tree.push(root);
+
+        // int depth = 1;
+
+        // TreeNode* node_tmp;
+
+        // int tree_size;
+
+        // while (!q_tree.empty())
+        // {
+        //     tree_size = q_tree.size();
+
+        //     for (size_t i = 0; i < tree_size; i++)
+        //     {
+        //         node_tmp = q_tree.front();
+
+        //         q_tree.pop();
+
+        //         if (node_tmp->left == nullptr && node_tmp->right == nullptr)
+        //         {
+        //             return depth;
+        //         }
+                
+        //         if (node_tmp->left != nullptr)
+        //         {
+        //             q_tree.push(node_tmp->left);
+        //         }
+                
+        //         if (node_tmp->right != nullptr)
+        //         {
+        //             q_tree.push(node_tmp->right);
+        //         }
+        //     }
+
+        //     depth++;
+        // }
+        
+        // return depth;
     }
 };
 // @lc code=end
