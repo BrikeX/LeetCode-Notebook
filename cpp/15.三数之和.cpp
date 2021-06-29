@@ -8,6 +8,7 @@
 class Solution {
 public:
     vector<vector<int>> threeSum(vector<int>& nums) {
+        // 双指针算法
         vector<vector<int>> result;
 
         if (nums.size() < 3)
