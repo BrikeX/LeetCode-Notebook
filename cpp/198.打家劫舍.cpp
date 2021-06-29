@@ -51,7 +51,7 @@ public:
         //     return nums.front();
         // }
         
-        // vector<int> dp(nums.size(), 0);
+        // vector<int> dp(nums_size, 0);
 
         // dp[0] = nums[0];
 
