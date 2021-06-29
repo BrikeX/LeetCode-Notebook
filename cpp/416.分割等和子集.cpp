@@ -29,12 +29,14 @@ public:
 
         for (int i = 0; i < nums.size(); i++)
         {
-            for (int j = sum; j >= 0; j--)
+            for (int j = sum; j >= nums[i]; j--)
             {
-                if (j - nums[i] >= 0)
+                if (dp_table[sum])
                 {
-                    dp_table[j] = dp_table[j] || dp_table[j - nums[i]];
+                    return true;
                 }
+                
+                dp_table[j] = dp_table[j] || dp_table[j - nums[i]];
             }
         }
         
