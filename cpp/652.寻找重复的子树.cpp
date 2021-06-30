@@ -40,11 +40,7 @@ public:
 
         string right = traverse(root->right);
 
-        stringstream ss;
-
-        ss << root->val;
-
-        string tree_sub = left + "," + right + "," + ss.str();
+        string tree_sub = left + "," + right + "," + to_string(root->val);
 
         auto it = memo.find(tree_sub);
 
