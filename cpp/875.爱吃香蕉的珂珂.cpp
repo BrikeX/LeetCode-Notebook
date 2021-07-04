@@ -36,9 +36,9 @@ public:
     {
         int sum = 0;
 
-        for (size_t i = 0; i < piles.size(); i++)
+        for (auto &&pile : piles)
         {
-            sum += piles[i] / speed + ((piles[i] % speed > 0) ? 1 : 0);
+            sum += (pile - 1) / speed + 1;
         }
         
         return sum <= h;
