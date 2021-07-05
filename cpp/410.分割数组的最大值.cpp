@@ -9,13 +9,16 @@ class Solution {
 public:
     int splitArray(vector<int>& nums, int m) {
         // 二分搜索
-        int left = *max_element(nums.begin(), nums.end());
+        int left = 0, right = 0;
 
-        int right = 0;
-
-        for (size_t i = 0; i < nums.size(); i++)
+        for (auto &&num : nums)
         {
-            right += nums[i];
+            if (left < num)
+            {
+                left = num;
+            }
+
+            right += num;
         }
         
         int mid;
