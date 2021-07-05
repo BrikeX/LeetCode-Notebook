@@ -7,33 +7,8 @@
 // @lc code=start
 class Solution {
 public:
-    vector<vector<int>> memo;
-
-    int dp(vector<vector<int>>& matrix, int i, int j)
-    {
-        if (i < 0 || j < 0 || i >= matrix.size() || j >= matrix[0].size())
-        {
-            return INT_MAX;
-        }
-        
-        if (i == 0)
-        {
-            return matrix[i][j];
-        }
-        
-        if (memo[i][j] != INT_MAX)
-        {
-            return memo[i][j];
-        }
-
-        memo[i][j] = matrix[i][j] + 
-                     min(dp(matrix, i-1, j-1), min(dp(matrix, i-1, j), dp(matrix, i-1, j+1)));
-        
-        return memo[i][j];
-    }
-
     int minFallingPathSum(vector<vector<int>>& matrix) {
-        // DP
+        // DP，自顶向下
         int n = matrix.size();
 
         if (n == 1)
@@ -61,6 +36,32 @@ public:
         }
         
         return result;
+    }
+
+private:
+    vector<vector<int>> memo;
+
+    int dp(vector<vector<int>>& matrix, int i, int j)
+    {
+        if (i < 0 || j < 0 || i >= matrix.size() || j >= matrix[0].size())
+        {
+            return INT_MAX;
+        }
+        
+        if (i == 0)
+        {
+            return matrix[i][j];
+        }
+        
+        if (memo[i][j] != INT_MAX)
+        {
+            return memo[i][j];
+        }
+
+        memo[i][j] = matrix[i][j] + 
+                     min(dp(matrix, i-1, j-1), min(dp(matrix, i-1, j), dp(matrix, i-1, j+1)));
+        
+        return memo[i][j];
     }
 };
 // @lc code=end
