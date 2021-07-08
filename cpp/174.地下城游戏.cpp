@@ -7,14 +7,15 @@
 // @lc code=start
 class Solution {
 public:
-    vector<vector<int>> memo;
-
     int calculateMinimumHP(vector<vector<int>>& dungeon) {
-        // DP
+        // DP，自顶向下
         memo.resize(dungeon.size(), vector<int>(dungeon[0].size(), -1));
 
         return dp(dungeon, 0, 0);
     }
+
+private:
+    vector<vector<int>> memo;
 
     int dp(vector<vector<int>>& dungeon, int i, int j)
     {
