@@ -7,12 +7,13 @@
 // @lc code=start
 class Solution {
 public:
-    unordered_map<string, int> memo;
-
     bool isMatch(string s, string p) {
         // DP
         return dp(s, 0, p, 0);
     }
+
+private:
+    unordered_map<string, int> memo;
 
     bool dp(string& s, int i, string& p, int j)
     {
@@ -39,21 +40,7 @@ public:
             return true;
         }
 
-        stringstream ss;
-
-        ss << i;
-
-        string key = ss.str();
-
-        key += ",";
-
-        ss.clear();
-
-        ss.str("");
-
-        ss << j;
-
-        key += ss.str();
+        string key = to_string(i) + "," + to_string(j);
 
         if (memo.count(key))
         {
