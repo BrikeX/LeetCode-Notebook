@@ -7,12 +7,8 @@
 // @lc code=start
 class Solution {
 public:
-    vector<vector<int>> memo;
-
-    unordered_map<char, vector<int>> charToIndex;
-
     int findRotateSteps(string ring, string key) {
-        // DP
+        // DP，自顶向下
         memo.resize(ring.size(), vector<int>(key.size()));
 
         for (size_t i = 0; i < ring.size(); i++)
@@ -22,6 +18,11 @@ public:
         
         return dp(ring, 0, key, 0);
     }
+
+private:
+    vector<vector<int>> memo;
+
+    unordered_map<char, vector<int>> charToIndex;
 
     int dp(string& ring, int i, string& key, int j)
     {
