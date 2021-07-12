@@ -21,54 +21,100 @@ public:
             return false;
         }
 
-        // 从数字视角
-        sort(nums.begin(), nums.end(), comparison);
+        // // 从数字视角
+        // sort(nums.begin(), nums.end(), comparison);
 
-        vector<int> buckets(k);
+        // vector<int> buckets(k);
 
-        return backTracking(nums, buckets, 0, sum / k);
+        // return backTracking(nums, buckets, 0, sum / k);
+
+        // 从容器视角
+        vector<bool> used(nums.size());
+
+        return backTracking(k, 0, nums, 0, used, sum / k);
     }
 
 private:
-    static bool comparison(const int& a, const int& b)
+    bool backTracking(int k, int bucket, vector<int>& nums, int start, vector<bool>& used, int target)
     {
-        return a > b;
-    }
-
-    bool backTracking(vector<int>& nums, vector<int>& buckets, int index, int target)
-    {
-        if (index == nums.size())
+        if (k == 0)
         {
-            for (auto &&bucket : buckets)
-            {
-                if (bucket != target)
-                {
-                    return false;
-                }
-            }
-            
             return true;
         }
         
-        for (auto &&bucket : buckets)
+        if (bucket == target)
         {
-            if (bucket + nums[index] > target)
+            return backTracking(k - 1, 0, nums, 0, used, target);
+        }
+        
+        for (int i = start; i < nums.size(); i++)
+        {
+            if (used[i])
             {
                 continue;
             }
             
-            bucket += nums[index];
+            if (bucket + nums[i] > target)
+            {
+                continue;
+            }
+            
+            bucket += nums[i];
 
-            if (backTracking(nums, buckets, index + 1, target))
+            used[i] = true;
+
+            if (backTracking(k, bucket, nums, i + 1, used, target))
             {
                 return true;
             }
             
-            bucket -= nums[index];
+            bucket -= nums[i];
+
+            used[i] = false;
         }
         
         return false;
     }
+
+    // static bool comparison(const int& a, const int& b)
+    // {
+    //     return a > b;
+    // }
+
+    // bool backTracking(vector<int>& nums, vector<int>& buckets, int index, int target)
+    // {
+    //     if (index == nums.size())
+    //     {
+    //         for (auto &&bucket : buckets)
+    //         {
+    //             if (bucket != target)
+    //             {
+    //                 return false;
+    //             }
+    //         }
+            
+    //         return true;
+    //     }
+        
+    //     for (auto &&bucket : buckets)
+    //     {
+    //         if (bucket + nums[index] > target)
+    //         {
+    //             continue;
+    //         }
+            
+    //         bucket += nums[index];
+
+    //         if (backTracking(nums, buckets, index + 1, target))
+    //         {
+    //             return true;
+    //         }
+            
+    //         bucket -= nums[index];
+    //     }
+        
+    //     return false;
+    // }
 };
 // @lc code=end
 
