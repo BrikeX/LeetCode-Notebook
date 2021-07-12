@@ -7,54 +7,13 @@
 // @lc code=start
 class Solution {
 public:
-    bool backTracking(int k, int bucket, vector<int>& nums, int start, vector<bool>& used, int target)
-    {
-        if (k == 0)
-        {
-            return true;
-        }
-        
-        if (bucket == target)
-        {
-            return backTracking(k - 1, 0, nums, 0, used, target);
-        }
-        
-        for (int i = start; i < nums.size(); i++)
-        {
-            if (used[i])
-            {
-                continue;
-            }
-            
-            if (bucket + nums[i] > target)
-            {
-                continue;
-            }
-            
-            bucket += nums[i];
-
-            used[i] = true;
-
-            if (backTracking(k, bucket, nums, i + 1, used, target))
-            {
-                return true;
-            }
-            
-            bucket -= nums[i];
-
-            used[i] = false;
-        }
-        
-        return false;
-    }
-
     bool canPartitionKSubsets(vector<int>& nums, int k) {
         // 回溯算法
         int sum = 0;
 
-        for (size_t i = 0; i < nums.size(); i++)
+        for (auto &&num : nums)
         {
-            sum += nums[i];
+            sum += num;
         }
         
         if (sum % k)
@@ -62,57 +21,54 @@ public:
             return false;
         }
 
-        vector<bool> used(nums.size());
+        // 从数字视角
+        sort(nums.begin(), nums.end(), comparison);
 
-        return backTracking(k, 0, nums, 0, used, sum / k);
+        vector<int> buckets(k);
 
-        // // 防止超时
-        // sort(nums.begin(), nums.end(), comparison);
-        
-        // vector<int> bucket(k);
-
-        // return backTracking(nums, 0, bucket, sum / k);
+        return backTracking(nums, buckets, 0, sum / k);
     }
 
-    // static bool comparison(const int& a, const int& b)
-    // {
-    //     return a > b;
-    // }
+private:
+    static bool comparison(const int& a, const int& b)
+    {
+        return a > b;
+    }
 
-    // bool backTracking(vector<int>& nums, int index, vector<int>& bucket, int target)
-    // {
-    //     if (index == nums.size())
-    //     {
-    //         for (size_t i = 0; i < bucket.size(); i++)
-    //         {
-    //             if (bucket[i] != target)
-    //             {
-    //                 return false;
-    //             }
-    //         }
-
-    //         return true;
-    //     }
-        
-    //     for (size_t i = 0; i < bucket.size(); i++)
-    //     {
-    //         if (bucket[i] + nums[index] > target)
-    //         {
-    //             continue;
-    //         }
+    bool backTracking(vector<int>& nums, vector<int>& buckets, int index, int target)
+    {
+        if (index == nums.size())
+        {
+            for (auto &&bucket : buckets)
+            {
+                if (bucket != target)
+                {
+                    return false;
+                }
+            }
             
-    //         bucket[i] += nums[index];
-
-    //         if (backTracking(nums, index + 1, bucket, target))
-    //         {
-    //             return true;
-    //         }
-            
-    //         bucket[i] -= nums[index];
-    //     }
+            return true;
+        }
         
-    //     return false;
-    // }
+        for (auto &&bucket : buckets)
+        {
+            if (bucket + nums[index] > target)
+            {
+                continue;
+            }
+            
+            bucket += nums[index];
+
+            if (backTracking(nums, buckets, index + 1, target))
+            {
+                return true;
+            }
+            
+            bucket -= nums[index];
+        }
+        
+        return false;
+    }
 };
 // @lc code=end
 
