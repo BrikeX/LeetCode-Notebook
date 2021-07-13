@@ -7,10 +7,10 @@
 // @lc code=start
 class Solution {
 public:
-    vector<vector<int>> result;
-
     vector<vector<int>> combine(int n, int k) {
         // 回溯算法
+        vector<vector<int>> result;
+
         if (n <= 0 || k <= 0)
         {
             return result;
@@ -18,12 +18,13 @@ public:
         
         vector<int> track;
 
-        backTracking(n, k, 1, track);
+        backTracking(n, k, 1, track, result);
 
         return result;
     }
 
-    void backTracking(int n, int k, int start, vector<int>& track)
+private:
+    void backTracking(int n, int k, int start, vector<int>& track, vector<vector<int>>& result)
     {
         if (track.size() == k)
         {
@@ -36,7 +37,7 @@ public:
         {
             track.push_back(i);
 
-            backTracking(n, k, i + 1, track);
+            backTracking(n, k, i + 1, track, result);
 
             track.pop_back();
         }
