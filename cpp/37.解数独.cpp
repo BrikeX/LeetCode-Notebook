@@ -22,7 +22,7 @@ private:
             return backTracking(board, row + 1, 0);
         }
         
-        if (row == 9)
+        if (row == board_size)
         {
             return true;
         }
