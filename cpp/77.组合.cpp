@@ -33,7 +33,9 @@ private:
             return;
         }
         
-        for (int i = start; i <= n; i++)
+        // for (int i = start; i <= n; i++)
+        // 剪枝
+        for (int i = start; i <= n - (k - track.size()) + 1; i++)
         {
             track.push_back(i);
 
