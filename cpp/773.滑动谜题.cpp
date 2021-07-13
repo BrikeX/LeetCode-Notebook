@@ -17,7 +17,7 @@ public:
         {
             for (size_t j = 0; j < col; j++)
             {
-                start.push_back(board[i][j] + '0');
+                start += to_string(board[i][j]);
             }
         }
         
@@ -50,20 +50,20 @@ public:
             {
                 cur_board = q.front();
 
-                visited.insert(cur_board);
-
-                q.pop();
-
                 if (cur_board == target)
                 {
                     return step;
                 }
+
+                visited.insert(cur_board);
+
+                q.pop();
                 
                 int index = 0;
 
                 for (; cur_board[index] != '0'; index++);
                 
-                for (int adjacent : neighbor[index])
+                for (auto &&adjacent : neighbor[index])
                 {
                     new_board = cur_board;
 
@@ -72,7 +72,7 @@ public:
                     if (!visited.count(new_board))
                     {
                         q.push(new_board);
-                    }   
+                    }
                 }
             }
             
