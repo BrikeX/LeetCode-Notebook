@@ -9,6 +9,11 @@ class Solution {
 public:
     vector<string> generateParenthesis(int n) {
         // 回溯算法
+        if (n == 1)
+        {
+            return {"()"};
+        }
+
         vector<string> result;
 
         string track;
@@ -18,6 +23,7 @@ public:
         return result;
     }
 
+private:
     void backTracking(int left, int right, string& track, vector<string>& result)
     {
         if (right < left)
