@@ -7,12 +7,13 @@
 // @lc code=start
 class Solution {
 public:
-    int board_size = 9;
-
     void solveSudoku(vector<vector<char>>& board) {
         // 回溯算法
         backTracking(board, 0, 0);
     }
+
+private:
+    int board_size = 9;
 
     bool backTracking(vector<vector<char>>& board, int row, int col)
     {
