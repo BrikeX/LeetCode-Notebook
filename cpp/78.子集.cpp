@@ -7,27 +7,13 @@
 // @lc code=start
 class Solution {
 public:
-    vector<vector<int>> result;
-
-    void backTracking(vector<int>& nums, int start, vector<int>& track)
-    {
-        result.push_back(track);
-
-        for (size_t i = start; i < nums.size(); i++)
-        {
-            track.push_back(nums[i]);
-
-            backTracking(nums, i + 1, track);
-
-            track.pop_back();
-        }
-    }
-
     vector<vector<int>> subsets(vector<int>& nums) {
         // 回溯算法
+        vector<vector<int>> result;
+
         vector<int> track;
 
-        backTracking(nums, 0, track);
+        backTracking(nums, 0, track, result);
 
         return result;
 
@@ -53,6 +39,21 @@ public:
         // }
         
         // return result;
+    }
+
+private:
+    void backTracking(vector<int>& nums, int index, vector<int>& track, vector<vector<int>>& result)
+    {
+        result.push_back(track);
+
+        for (int i = index; i < nums.size(); i++)
+        {
+            track.push_back(nums[i]);
+
+            backTracking(nums, i + 1, track, result);
+
+            track.pop_back();
+        }
     }
 };
 // @lc code=end
