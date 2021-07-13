@@ -9,6 +9,11 @@ class Solution {
 public:
     bool isPossible(vector<int>& nums) {
         // 哈希表
+        if (nums.size() < 3)
+        {
+            return false;
+        }
+
         unordered_map<int, int> freq, need;
 
         for (auto &&num : nums)
@@ -23,7 +28,7 @@ public:
                 continue;
             }
             
-            if (need.count(num) && need[num] > 0)
+            if (need[num] > 0)
             {
                 freq[num]--;
 
@@ -31,7 +36,7 @@ public:
 
                 need[num + 1]++;
             }
-            else if (freq[num] > 0 && freq[num + 1] > 0 && freq[num + 2] > 0)
+            else if (freq[num + 1] > 0 && freq[num + 2] > 0)
             {
                 freq[num]--;
 
