@@ -8,44 +8,36 @@
 class Solution {
 public:
     bool isValid(string s) {
+        if (s.size() % 2)
+        {
+            return false;
+        }
+        
+        unordered_map<char, char> bracket_map({
+            {')', '('},
+            {']', '['},
+            {'}', '{'}});
+        
         stack<char> brackets;
 
         for (auto &&c : s)
         {
-            if (c == '{' || c == '[' || c == '(')
+            if (bracket_map.count(c))
             {
-                brackets.push(c);
-            }
-            else
-            {
-                if (!brackets.empty() && leftBracket(c) == brackets.top())
-                {
-                    brackets.pop();
-                }
-                else
+                if (brackets.empty() || brackets.top() != bracket_map[c])
                 {
                     return false;
                 }
+                
+                brackets.pop();
+            }
+            else
+            {
+                brackets.push(c);
             }
         }
         
         return brackets.empty();
-    }
-
-    char leftBracket(char c)
-    {
-        if (c == '}')
-        {
-            return '{';
-        }
-        else if (c == ']')
-        {
-            return '[';
-        }
-        else
-        {
-            return '(';
-        }
     }
 };
 // @lc code=end
