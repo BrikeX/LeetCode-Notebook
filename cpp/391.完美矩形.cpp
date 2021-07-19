@@ -8,7 +8,7 @@
 class Solution {
 public:
     bool isRectangleCover(vector<vector<int>>& rectangles) {
-        vector<int> vertex = {INT_MAX, INT_MAX, -INT_MAX, -INT_MAX};
+        vector<int> vertex = {INT_MAX, INT_MAX, INT_MIN, INT_MIN};
 
         vector<pair<int, int>> points(4);
 
