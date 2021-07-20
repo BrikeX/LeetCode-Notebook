@@ -14,6 +14,11 @@ public:
         return result;
     }
 
+private:
+    vector<int> result;
+
+    int index;
+
     void pancakeSwap(vector<int>& arr, int size)
     {
         if (size == 1)
@@ -21,7 +26,7 @@ public:
             return;
         }
         
-        int index = max_element(arr.begin(), arr.begin() + size) - arr.begin();
+        index = max_element(arr.begin(), arr.begin() + size) - arr.begin();
         
         reverse(arr.begin(), arr.begin() + index + 1);
 
@@ -33,9 +38,6 @@ public:
 
         pancakeSwap(arr, size - 1);
     }
-
-private:
-    vector<int> result;
 };
 // @lc code=end
 
