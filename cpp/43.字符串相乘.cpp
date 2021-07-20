@@ -15,30 +15,32 @@ public:
         
         vector<int> data(num1.size() + num2.size());
 
+        int sum = 0;
+
         for (int i = num1.size() - 1; i >= 0; i--)
         {
             for (int j = num2.size() - 1; j >= 0; j--)
             {
-                int sum = (num1[i] - '0') * (num2[j] - '0') + data[i + j + 1];
+                sum = (num1[i] - '0') * (num2[j] - '0') + data[i + j + 1];
 
                 data[i + j + 1] = sum % 10;
 
                 data[i + j] += sum / 10;
             }
         }
-        
-        int i = 0;
 
-        while (i < data.size() && data[i] == 0)
+        auto it = data.begin();
+
+        while (it != data.end() && *it == 0)
         {
-            i++;
+            it++;
         }
         
         string result;
 
-        for (; i < data.size(); i++)
+        for (; it != data.end(); it++)
         {
-            result.push_back('0' + data[i]);
+            result += to_string(*it);
         }
         
         return result;
