@@ -9,25 +9,33 @@ class Solution {
 public:
     int subarraySum(vector<int>& nums, int k) {
         // 前缀和，哈希表
-        unordered_map<int, int> memo;
-
-        memo.emplace(0, 1);
+        if (nums.size() == 1)
+        {
+            if (nums[0] == k)
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        
+        unordered_map<int, int> memo({{0, 1}});
 
         int result = 0;
 
         int sum_0_i = 0, sum_0_j = 0;
 
-        for (size_t i = 0; i < nums.size(); i++)
+        for (auto &&num : nums)
         {
-            sum_0_i += nums[i];
+            sum_0_i += num;
 
             sum_0_j = sum_0_i - k;
 
-            auto it = memo.find(sum_0_j);
-
-            if (it != memo.end())
+            if (memo.count(sum_0_j))
             {
-                result += it->second;
+                result += memo[sum_0_j];
             }
             
             memo[sum_0_i]++;
