@@ -15,16 +15,16 @@ public:
 
         char sign = '+';
 
-        for (size_t i = 0; i < s.size(); i++)
+        for (auto it = s.begin(); it != s.end(); it++)
         {
-            char c = s[i];
+            char c = *it;
 
             if (isdigit(c))
             {
                 num = 10 * num + (c - '0');
             }
             
-            if ((!isdigit(c) && c != ' ') || i == s.size() - 1)
+            if ((!isdigit(c) && c != ' ') || it == s.end() - 1)
             {
                 switch (sign)
                 {
