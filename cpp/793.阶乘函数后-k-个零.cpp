@@ -11,21 +11,22 @@ public:
         // 二分搜索
         long left = leftBoundary(k);
 
-        // if (left == -1)
-        // {
-        //     return 0;
-        // }
+        if (left == -1)
+        {
+            return 0;
+        }
         
         long right = rightBoundary(k);
 
-        // if (right == -1)
-        // {
-        //     return 0;
-        // }
+        if (right == -1)
+        {
+            return 0;
+        }
 
         return right - left + 1;
     }
 
+private:
     long trailingZeroes(long n) 
     {
         long result = 0;
@@ -58,10 +59,10 @@ public:
             }
         }
         
-        // if (left == LONG_MAX || trailingZeroes(mid) != target)
-        // {
-        //     return -1;
-        // }
+        if (left == LONG_MAX || trailingZeroes(left) != target)
+        {
+            return -1;
+        }
         
         return left;
     }
@@ -86,10 +87,10 @@ public:
             }
         }
 
-        // if (right < 0 || trailingZeroes(right) != target)
-        // {
-        //     return -1;
-        // }
+        if (right < 0 || trailingZeroes(right) != target)
+        {
+            return -1;
+        }
         
         return right;
     }
