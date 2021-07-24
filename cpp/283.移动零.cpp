@@ -9,31 +9,43 @@ class Solution {
 public:
     void moveZeroes(vector<int>& nums) {
         // 双指针算法
-        int i = removeElement(nums, 0);
-
-        for (; i < nums.size(); ++i)
-        {
-            nums[i] = 0;
-        }
-    }
-
-private:
-    int removeElement(vector<int>& nums, int val)
-    {
         int slow = 0, fast = 0;
 
         while (fast < nums.size())
         {
-            if (nums[fast] != val)
+            if (nums[fast])
             {
-                nums[slow++] = nums[fast];
+                swap(nums[slow++], nums[fast]);
             }
             
             ++fast;
         }
-        
-        return slow;
+
+        // int i = removeElement(nums, 0);
+
+        // for (; i < nums.size(); ++i)
+        // {
+        //     nums[i] = 0;
+        // }
     }
+
+// private:
+//     int removeElement(vector<int>& nums, int val)
+//     {
+//         int slow = 0, fast = 0;
+
+//         while (fast < nums.size())
+//         {
+//             if (nums[fast] != val)
+//             {
+//                 nums[slow++] = nums[fast];
+//             }
+            
+//             ++fast;
+//         }
+        
+//         return slow;
+//     }
 };
 // @lc code=end
 
