@@ -10,9 +10,11 @@ public:
     vector<int> findErrorNums(vector<int>& nums) {
         vector<int> result(2);
 
-        for (size_t i = 0; i < nums.size(); i++)
+        int index;
+
+        for (auto &&num : nums)
         {
-            int index = abs(nums[i]) - 1;
+            index = abs(num) - 1;
 
             if (nums[index] > 0)
             {
@@ -20,15 +22,17 @@ public:
             }
             else
             {
-                result[0] = abs(nums[i]);
+                result[0] = abs(num);
             }
         }
         
-        for (size_t i = 0; i < nums.size(); i++)
+        for (int i = 0; i < nums.size(); ++i)
         {
             if (nums[i] > 0)
             {
-                result[1] = i + 1;
+                result[1] = ++i;
+
+                break;
             }
         }
         
