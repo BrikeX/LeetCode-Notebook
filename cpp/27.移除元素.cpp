@@ -9,19 +9,35 @@ class Solution {
 public:
     int removeElement(vector<int>& nums, int val) {
         // 双指针算法
-        int slow = 0, fast = 0;
+        int left = 0, right = nums.size() - 1;
 
-        while (fast < nums.size())
+        while (left <= right)
         {
-            if (nums[fast] != val)
+            if (nums[left] == val)
             {
-                nums[slow++] = nums[fast];
+                swap(nums[left], nums[right--]);
             }
-            
-            ++fast;
+            else
+            {
+                ++left;
+            }
         }
         
-        return slow;
+        return left;
+
+        // int slow = 0, fast = 0;
+
+        // while (fast < nums.size())
+        // {
+        //     if (nums[fast] != val)
+        //     {
+        //         nums[slow++] = nums[fast];
+        //     }
+            
+        //     ++fast;
+        // }
+        
+        // return slow;
     }
 };
 // @lc code=end
