@@ -11,12 +11,13 @@ public:
         // 双指针算法
         int i = removeElement(nums, 0);
 
-        for (; i < nums.size(); i++)
+        for (; i < nums.size(); ++i)
         {
             nums[i] = 0;
         }
     }
 
+private:
     int removeElement(vector<int>& nums, int val)
     {
         int slow = 0, fast = 0;
@@ -25,12 +26,10 @@ public:
         {
             if (nums[fast] != val)
             {
-                nums[slow] = nums[fast];
-
-                slow++;
+                nums[slow++] = nums[fast];
             }
             
-            fast++;
+            ++fast;
         }
         
         return slow;
