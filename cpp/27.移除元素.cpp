@@ -15,12 +15,10 @@ public:
         {
             if (nums[fast] != val)
             {
-                nums[slow] = nums[fast];
-
-                slow++;
+                nums[slow++] = nums[fast];
             }
             
-            fast++;
+            ++fast;
         }
         
         return slow;
