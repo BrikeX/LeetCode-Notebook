@@ -18,24 +18,49 @@
 class Solution {
 public:
     ListNode* reverseList(ListNode* head) {
-        // 递归算法
-        if (head == nullptr)
+        // 双指针算法
+        if (!head)
         {
             return nullptr;
         }
         
-        if (head->next == nullptr)
+        ListNode* pre = nullptr;
+
+        ListNode* cur = head;
+
+        ListNode* nxt;
+
+        while (cur)
         {
-            return head;
+            nxt = cur->next;
+
+            cur->next = pre;
+
+            pre = cur;
+
+            cur = nxt;
         }
         
-        ListNode* last = reverseList(head->next);
+        return pre;
 
-        head->next->next = head;
+        // // 递归算法
+        // if (head == nullptr)
+        // {
+        //     return nullptr;
+        // }
+        
+        // if (head->next == nullptr)
+        // {
+        //     return head;
+        // }
+        
+        // ListNode* last = reverseList(head->next);
 
-        head->next = nullptr;
+        // head->next->next = head;
 
-        return last;
+        // head->next = nullptr;
+
+        // return last;
     }
 };
 // @lc code=end
