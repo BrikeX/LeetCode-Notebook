@@ -21,7 +21,7 @@ public:
         // 递归算法
         if (left == 1)
         {
-            return reverse(head, right);
+            return reverseN(head, right);
         }
 
         head->next = reverseBetween(head->next, left - 1, right - 1);
@@ -32,16 +32,16 @@ public:
 private:
     ListNode* successor = nullptr;
 
-    ListNode* reverse(ListNode* head, int right)
+    ListNode* reverseN(ListNode* head, int n)
     {
-        if (right == 1)
+        if (n == 1)
         {
             successor = head->next;
 
             return head;
         }
         
-        ListNode* last = reverse(head->next, right - 1);
+        ListNode* last = reverseN(head->next, n - 1);
 
         head->next->next = head;
 
