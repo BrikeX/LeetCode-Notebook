@@ -9,16 +9,24 @@ class Solution {
 public:
     vector<vector<int>> permute(vector<int>& nums) {
         // 回溯算法
-        vector<int> track;
+        if (nums.size() == 1)
+        {
+            result.push_back(nums);
 
-        vector<vector<int>> result;
-
-        backTracking(nums, track, result);
+            return result;
+        }
+        
+        backtracking(nums, track);
 
         return result;
     }
 
-    void backTracking(vector<int>& nums, vector<int>& track, vector<vector<int>>& result)
+private:
+    vector<int> track;
+
+    vector<vector<int>> result;
+
+    void backtracking(vector<int>& nums, vector<int>& track)
     {
         if (track.size() == nums.size())
         {
@@ -26,21 +34,19 @@ public:
 
             return;
         }
-        
-        for (size_t i = 0; i < nums.size(); i++)
+
+        for (auto it = nums.begin(); it != nums.end(); ++it)
         {
-            if (find(track.begin(), track.end(), nums[i]) != track.end())
+            if (find(track.begin(), track.end(), *it) != track.end())
             {
                 continue;
             }
-            else
-            {
-                track.push_back(nums[i]);
 
-                backTracking(nums, track, result);
+            track.push_back(*it);
 
-                track.pop_back();
-            }
+            backtracking(nums, track);
+
+            track.pop_back();
         }
     }
 };
