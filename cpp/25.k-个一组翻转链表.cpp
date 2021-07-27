@@ -19,14 +19,21 @@ class Solution {
 public:
     ListNode* reverseKGroup(ListNode* head, int k) {
         // 递归算法
+        if (k == 1)
+        {
+            return head;
+        }
+        
         if (!head)
         {
             return nullptr;
         }
 
-        ListNode *left = head, *right = head;
+        ListNode* left = head;
+        
+        ListNode* right = head;
 
-        for (size_t i = 0; i < k; i++)
+        for (int i = 0; i < k; ++i)
         {
             if (!right)
             {
@@ -43,13 +50,14 @@ public:
         return new_head;
     }
 
+private:
     ListNode* reverse(ListNode* left, ListNode* right)
     {
         ListNode* pre = nullptr;
 
         ListNode* cur = left;
 
-        ListNode* nxt = left;
+        ListNode* nxt;
 
         while (cur != right)
         {
