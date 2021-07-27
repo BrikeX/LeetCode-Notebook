@@ -17,6 +17,19 @@
  */
 class Solution {
 public:
+    ListNode* reverseBetween(ListNode* head, int left, int right) {
+        // 递归算法
+        if (left == 1)
+        {
+            return reverse(head, right);
+        }
+
+        head->next = reverseBetween(head->next, left - 1, right - 1);
+
+        return head;
+    }
+
+private:
     ListNode* successor = nullptr;
 
     ListNode* reverse(ListNode* head, int right)
@@ -35,18 +48,6 @@ public:
         head->next = successor;
 
         return last;
-    }
-
-    ListNode* reverseBetween(ListNode* head, int left, int right) {
-        // 递归算法
-        if (left == 1)
-        {
-            return reverse(head, right);
-        }
-
-        head->next = reverseBetween(head->next, left - 1, right - 1);
-
-        return head;
     }
 };
 // @lc code=end
