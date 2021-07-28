@@ -37,20 +37,21 @@ public:
         return root;
     }
 
-    void connectTwoNode(Node* left, Node* right)
+private:
+    void connectTwoNode(Node* node_left, Node* node_right)
     {
-        if (!left || !right)
+        if (!node_left || !node_right)
         {
             return;
         }
-
-        left->next = right;
-
-        connectTwoNode(left->left, left->right);
-
-        connectTwoNode(right->left, right->right);
         
-        connectTwoNode(left->right, right->left);
+        node_left->next = node_right;
+
+        connectTwoNode(node_left->left, node_left->right);
+
+        connectTwoNode(node_right->left, node_right->right);
+
+        connectTwoNode(node_left->right, node_right->left);
     }
 };
 // @lc code=end
