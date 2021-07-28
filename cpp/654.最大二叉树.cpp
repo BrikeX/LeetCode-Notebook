@@ -23,6 +23,7 @@ public:
         return buildBinaryTree(nums, 0, nums.size() - 1);
     }
 
+private:
     TreeNode* buildBinaryTree(vector<int>& nums, int begin, int end)
     {
         if (begin > end)
