@@ -43,7 +43,7 @@ public:
             right = right->next;
         }
         
-        ListNode* new_head = reverse(left, right);
+        ListNode* new_head = reverseBetween(left, right);
 
         left->next = reverseKGroup(right, k);
 
@@ -51,7 +51,7 @@ public:
     }
 
 private:
-    ListNode* reverse(ListNode* left, ListNode* right)
+    ListNode* reverseBetween(ListNode* left, ListNode* right)
     {
         ListNode* pre = nullptr;
 
