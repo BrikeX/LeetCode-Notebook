@@ -18,8 +18,10 @@
 class Solution {
 public:
     bool isPalindrome(ListNode* head) {
-        // 迭代算法
-        ListNode *slow = head, *fast = head;
+        // 双指针算法
+        ListNode* slow = head;
+        
+        ListNode* fast = head;
 
         while (fast && fast->next)
         {
@@ -35,7 +37,7 @@ public:
         
         ListNode* left = head;
 
-        ListNode* right = reverse(slow);
+        ListNode* right = reverseList(slow);
 
         while (right)
         {
@@ -52,11 +54,13 @@ public:
         return true;
     }
 
-    ListNode* reverse(ListNode* left)
+private:
+    ListNode* reverseList(ListNode* head)
     {
+        // 迭代算法
         ListNode* pre = nullptr;
 
-        ListNode* cur = left;
+        ListNode* cur = head;
 
         ListNode* nxt;
 
