@@ -57,25 +57,44 @@ public:
 private:
     ListNode* reverseList(ListNode* head)
     {
-        // 迭代算法
-        ListNode* pre = nullptr;
-
-        ListNode* cur = head;
-
-        ListNode* nxt;
-
-        while (cur)
+        // 递归算法
+        if (!head)
         {
-            nxt = cur->next;
-
-            cur->next = pre;
-
-            pre = cur;
-
-            cur = nxt;
+            return nullptr;
         }
         
-        return pre;
+        if (!head->next)
+        {
+            return head;
+        }
+        
+        ListNode* last = reverseList(head->next);
+
+        head->next->next = head;
+
+        head->next = nullptr;
+
+        return last;
+
+        // // 迭代算法
+        // ListNode* pre = nullptr;
+
+        // ListNode* cur = head;
+
+        // ListNode* nxt;
+
+        // while (cur)
+        // {
+        //     nxt = cur->next;
+
+        //     cur->next = pre;
+
+        //     pre = cur;
+
+        //     cur = nxt;
+        // }
+        
+        // return pre;
     }
 
     // ListNode* left;
