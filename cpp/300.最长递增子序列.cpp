@@ -11,6 +11,8 @@ public:
         // DP
         vector<int> dp_table(nums.size(), 1);
 
+        int result = dp_table[0];
+
         for (size_t i = 0; i < nums.size(); i++)
         {
             for (size_t j = 0; j < i; j++)
@@ -20,9 +22,13 @@ public:
                     dp_table[i] = max(dp_table[i], dp_table[j] + 1);
                 }
             }
+
+            result = max(result, dp_table[i]);
         }
+
+        return result;
         
-        return *max_element(dp_table.begin(), dp_table.end());
+        // return *max_element(dp_table.begin(), dp_table.end());
 
         // // 二分搜索
         // vector<int> top(nums.size());
