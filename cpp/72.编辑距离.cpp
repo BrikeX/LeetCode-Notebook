@@ -9,12 +9,7 @@ class Solution {
 public:
     int minDistance(string word1, string word2) {
         // DP
-        vector<vector<int>> dp_table(word1.size() + 1);
-
-        for (size_t i = 0; i < dp_table.size(); i++)
-        {
-            dp_table[i].resize(word2.size() + 1);
-        }
+        vector<vector<int>> dp_table(word1.size() + 1, vector<int>(word2.size() + 1));
         
         for (size_t i = 1; i < dp_table.size(); i++)
         {
