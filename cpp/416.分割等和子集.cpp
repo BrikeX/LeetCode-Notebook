@@ -39,19 +39,6 @@ public:
                 dp_table[i] = dp_table[i] || dp_table[i - num];
             }
         }
-
-        // for (int i = 0; i < nums.size(); i++)
-        // {
-        //     for (int j = sum; j >= nums[i]; j--)
-        //     {
-        //         if (dp_table[sum])
-        //         {
-        //             return true;
-        //         }
-                
-        //         dp_table[j] = dp_table[j] || dp_table[j - nums[i]];
-        //     }
-        // }
         
         return dp_table[sum];
 
