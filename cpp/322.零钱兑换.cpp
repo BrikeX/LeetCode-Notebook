@@ -55,18 +55,27 @@ public:
 
         dp_table[0] = 0;
 
-        for (int i = 0; i < dp_table.size(); i++)
+        // 完全背包问题
+        for (auto &&coin : coins)
         {
-            for (int j = 0; j < coins.size(); j++)
+            for (size_t i = coin; i <= amount; i++)
             {
-                if (i - coins[j] < 0)
-                {
-                    continue;
-                }
-                
-                dp_table[i] = min(dp_table[i], dp_table[i - coins[j]] + 1);
+                dp_table[i] = min(dp_table[i], dp_table[i - coin] + 1);
             }
         }
+        
+        // for (int i = 0; i < dp_table.size(); i++)
+        // {
+        //     for (int j = 0; j < coins.size(); j++)
+        //     {
+        //         if (i - coins[j] < 0)
+        //         {
+        //             continue;
+        //         }
+                
+        //         dp_table[i] = min(dp_table[i], dp_table[i - coins[j]] + 1);
+        //     }
+        // }
         
         return (dp_table[amount] == amount + 1) ? -1 : dp_table[amount];
 
