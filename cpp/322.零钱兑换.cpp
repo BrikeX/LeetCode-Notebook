@@ -58,7 +58,7 @@ public:
         // 完全背包问题
         for (auto &&coin : coins)
         {
-            for (size_t i = coin; i <= amount; i++)
+            for (int i = coin; i <= amount; i++)
             {
                 dp_table[i] = min(dp_table[i], dp_table[i - coin] + 1);
             }

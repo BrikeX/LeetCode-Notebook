@@ -8,19 +8,16 @@
 class Solution {
 public:
     int change(int amount, vector<int>& coins) {
-        // DP，空间复杂度优化
+        // DP，完全背包问题
         vector<int> dp_table(amount + 1);
 
         dp_table[0] = 1;
 
-        for (int i = 0; i < coins.size(); i++)
+        for (auto &&coin : coins)
         {
-            for (int j = 1; j < dp_table.size(); j++)
+            for (int i = coin; i <= amount; i++)
             {
-                if (j - coins[i] >= 0)
-                {
-                    dp_table[j] = dp_table[j] + dp_table[j - coins[i]];
-                }
+                dp_table[i] = dp_table[i] + dp_table[i - coin];
             }
         }
         
