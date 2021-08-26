@@ -8,7 +8,7 @@
 class Solution {
 public:
     bool canPartition(vector<int>& nums) {
-        // DP，空间复杂度优化
+        // DP，0-1 背包问题
         int sum = 0;
 
         for (size_t i = 0; i < nums.size(); i++)
@@ -27,18 +27,31 @@ public:
 
         dp_table[0] = true;
 
-        for (int i = 0; i < nums.size(); i++)
+        for (auto &&num : nums)
         {
-            for (int j = sum; j >= nums[i]; j--)
+            for (int i = sum; i >= num; --i)
             {
                 if (dp_table[sum])
                 {
                     return true;
                 }
                 
-                dp_table[j] = dp_table[j] || dp_table[j - nums[i]];
+                dp_table[i] = dp_table[i] || dp_table[i - num];
             }
         }
+
+        // for (int i = 0; i < nums.size(); i++)
+        // {
+        //     for (int j = sum; j >= nums[i]; j--)
+        //     {
+        //         if (dp_table[sum])
+        //         {
+        //             return true;
+        //         }
+                
+        //         dp_table[j] = dp_table[j] || dp_table[j - nums[i]];
+        //     }
+        // }
         
         return dp_table[sum];
 
