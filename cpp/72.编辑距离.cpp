@@ -38,7 +38,7 @@ public:
             }
         }
         
-        return dp_table[word1.size()][word2.size()];
+        return dp_table.back().back();
     }
 };
 // @lc code=end
