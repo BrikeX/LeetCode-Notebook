@@ -13,18 +13,16 @@ public:
         {
             return nums.front();
         }
+        
+        int dp = 0;
 
-        int dp_0 = nums[0], dp_1 = 0;
+        int result = INT_MIN;
 
-        int result = dp_0;
-
-        for (size_t i = 1; i < nums.size(); i++)
+        for (auto &&num : nums)
         {
-            dp_1 = max(nums[i], dp_0 + nums[i]);
+            dp = max(num, dp + num);
 
-            dp_0 = dp_1;
-
-            result = max(result, dp_1);
+            result = max(result, dp);
         }
         
         return result;
