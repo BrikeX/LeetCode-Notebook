@@ -9,12 +9,7 @@ class Solution {
 public:
     // DP，自底向上
     int longestCommonSubsequence(string text1, string text2) {
-        vector<vector<int>> dp_table(text1.size() + 1);
-
-        for (size_t i = 0; i < dp_table.size(); i++)
-        {
-            dp_table[i].resize(text2.size() + 1);
-        }
+        vector<vector<int>> dp_table(text1.size() + 1, vector<int>(text2.size() + 1));
         
         for (size_t i = 1; i < dp_table.size(); i++)
         {
@@ -31,7 +26,7 @@ public:
             }
         }
         
-        return dp_table[text1.size()][text2.size()];
+        return dp_table.back().back();
     }
     
     // // DP，自顶向下
