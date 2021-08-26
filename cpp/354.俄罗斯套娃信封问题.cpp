@@ -32,7 +32,7 @@ public:
 
         int result = dp_table[0];
 
-        for (size_t i = 0; i < height.size(); i++)
+        for (size_t i = 1; i < height.size(); i++)
         {
             for (size_t j = 0; j < i; j++)
             {
