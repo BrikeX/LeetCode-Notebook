@@ -11,7 +11,9 @@ public:
         // BFS
         int row = board.size(), col = board[0].size();
 
-        string start, target = "123450";
+        string start;
+        
+        string target = "123450";
 
         for (size_t i = 0; i < row; i++)
         {
@@ -19,6 +21,11 @@ public:
             {
                 start += to_string(board[i][j]);
             }
+        }
+
+        if (start == target)
+        {
+            return 0;
         }
         
         vector<vector<int>> neighbor = {
@@ -36,6 +43,8 @@ public:
 
         q.push(start);
 
+        visited.emplace(start);
+
         int step = 0;
 
         int q_size;
@@ -50,13 +59,6 @@ public:
             {
                 cur_board = q.front();
 
-                if (cur_board == target)
-                {
-                    return step;
-                }
-
-                visited.insert(cur_board);
-
                 q.pop();
                 
                 int index = 0;
@@ -69,9 +71,16 @@ public:
 
                     swap(new_board[adjacent], new_board[index]);
 
+                    if (new_board == target)
+                    {
+                        return step + 1;
+                    }
+
                     if (!visited.count(new_board))
                     {
                         q.push(new_board);
+
+                        visited.emplace(new_board);
                     }
                 }
             }
