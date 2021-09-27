@@ -82,7 +82,7 @@ public:
 };
 
 class Solution {
-public:
+private:
     int row, col;
 
     void dfs(vector<vector<char>>& board, int x, int y)
@@ -103,6 +103,7 @@ public:
         dfs(board, x, y - 1);
     }
 
+public:
     void solve(vector<vector<char>>& board) {
         // DFS
         row = board.size();
