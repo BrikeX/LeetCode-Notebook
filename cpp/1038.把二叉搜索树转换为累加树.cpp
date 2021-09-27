@@ -17,9 +17,7 @@
  * };
  */
 class Solution {
-public:
-    int sum = 0;
-    
+public:    
     TreeNode* bstToGst(TreeNode* root) {
         // 与 538 相同
         // BST 先递归右侧再递归左侧为降序
@@ -27,6 +25,9 @@ public:
 
         return root;
     }
+
+private:
+    int sum = 0;
 
     void traverse(TreeNode* root)
     {
