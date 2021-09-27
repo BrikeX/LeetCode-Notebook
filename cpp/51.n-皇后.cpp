@@ -27,6 +27,7 @@ public:
         return result;
     }
 
+private:
     void backTracking(int& n, int row, vector<string>& board, vector<vector<string>>& result)
     {
         if (row == n)
