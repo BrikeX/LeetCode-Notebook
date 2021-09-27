@@ -9,13 +9,15 @@ class Solution {
 public:
     int shipWithinDays(vector<int>& weights, int days) {
         // 二分搜索
-        int left = *max_element(weights.begin(), weights.end());
+        int left = -1;
 
         int right = 0;
 
-        for (size_t i = 0; i < weights.size(); i++)
+        for (auto &&weight : weights)
         {
-            right += weights[i];
+            left = max(left, weight);
+
+            right += weight;
         }
 
         int mid;
