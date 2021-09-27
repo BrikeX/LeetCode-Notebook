@@ -8,27 +8,27 @@
 class Solution {
 public:
     string removeDuplicateLetters(string s) {
-        // 哈希表
+        // 单调栈
         // 与 1081 相同
         string result;
 
         unordered_map<char, int> memo;
 
-        for (size_t i = 0; i < s.size(); i++)
+        for (auto &&c : s)
         {
-            memo[s[i]]++;
+            ++memo[c];
         }
-        
-        for (size_t i = 0; i < s.size(); i++)
-        {
-            memo[s[i]]--;
 
-            if (result.find(s[i]) != string::npos)
+        for (auto &&c : s)
+        {
+            --memo[c];
+
+            if (result.find(c) != string::npos)
             {
                 continue;
             }
             
-            while (!result.empty() && result.back() > s[i])
+            while (!result.empty() && result.back() > c)
             {
                 if (!memo[result.back()])
                 {
@@ -38,7 +38,7 @@ public:
                 result.pop_back();
             }
             
-            result.push_back(s[i]);
+            result.push_back(c);
         }
         
         return result;
