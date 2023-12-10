@@ -1,0 +1,7 @@
+{
+  "files.associations": {
+    "*.log.*": "log",
+    "*.INFO": "log",
+    "unordered_map": "cpp"
+  }
+}

@@ -14,11 +14,11 @@ class Solution {
   std::vector<int> twoSum(const std::vector<int>& nums, const int target) {
     // hash table
     std::unordered_map<int, int> hash_table;
-    int num_size = static_cast<int>(nums.size());
+    const int num_size = static_cast<int>(nums.size());
 
     for (int i = 0; i < num_size; ++i) {
-      auto it = hash_table.find(target - nums[i]);
-      if (it != hash_table.end()) {
+      const auto it = hash_table.find(target - nums[i]);
+      if (hash_table.cend() != it) {
         return {it->second, i};
       }
       hash_table[nums[i]] = i;
