@@ -5,109 +5,75 @@
  */
 
 // @lc code=start
-class UF
-{
-private:
-    int count;
-    
-    vector<int> parent, size;
 
-public:
-    UF(int n)
-    {
-        count = n;
+#include <string>
+#include <vector>
 
-        parent.resize(n);
+class WeightedQuickUnionUF {
+ public:
+  WeightedQuickUnionUF(const int n);
 
-        size.resize(n, 1);
+  inline int count() const { return count_; }
 
-        for (size_t i = 0; i < n; i++)
-        {
-            parent[i] = i;
-        }
-    }
+  int Find(int p) const;
+  bool Connected(const int p, const int q) const { return Find(p) == Find(q); }
+  void Union(const int p, const int q);
 
-    void unite(int p, int q)
-    {
-        int root_p = find(p);
-
-        int root_q = find(q);
-
-        if (root_p == root_q)
-        {
-            return;
-        }
-        
-        if (size[root_p] > size[root_q])
-        {
-            parent[root_q] = root_p;
-
-            size[root_p] += size[root_q];
-        }
-        else
-        {
-            parent[root_p] = root_q;
-
-            size[root_q] += size[root_p];
-        }
-        
-        count--;
-    }
-
-    bool isConnected(int p, int q)
-    {
-        int root_p = find(p);
-
-        int root_q = find(q);
-
-        return root_p == root_q;
-    }
-
-    int find(int x)
-    {
-        while (parent[x] != x)
-        {
-            parent[x] = parent[parent[x]];
-
-            x = parent[x];
-        }
-        
-        return x;
-    }
-
-    int countValue(void)
-    {
-        return count;
-    }
+ private:
+  std::vector<int> id_;
+  std::vector<int> sz_;
+  int count_ = 0;
 };
+
+WeightedQuickUnionUF::WeightedQuickUnionUF(const int n) : count_(n) {
+  id_.resize(n);
+  sz_.resize(n);
+  for (int i = 0; i < n; ++i) {
+    id_[i] = i;
+    sz_[i] = 1;
+  }
+}
+
+int WeightedQuickUnionUF::Find(int p) const {
+  while (p != id_[p]) {
+    p = id_[p];
+  }
+  return p;
+}
+
+void WeightedQuickUnionUF::Union(const int p, const int q) {
+  const int i = Find(p);
+  const int j = Find(q);
+  if (i == j) {
+    return;
+  }
+  if (sz_[i] < sz_[j]) {
+    id_[i] = j;
+    sz_[j] += sz_[i];
+  } else {
+    id_[j] = i;
+    sz_[i] += sz_[j];
+  }
+  --count_;
+}
 
 class Solution {
-public:
-    bool equationsPossible(vector<string>& equations) {
-        // 并查集算法
-        UF uf(26);
+ public:
+  bool equationsPossible(const std::vector<std::string> &equations) {
+    // Union-Find
+    WeightedQuickUnionUF uf(26);
 
-        for (auto &&str : equations)
-        {
-            if (str[1] == '=')
-            {
-                uf.unite(str[0] - 'a', str[3] - 'a');
-            }
-        }
-        
-        for (auto &&str : equations)
-        {
-            if (str[1] == '!')
-            {
-                if (uf.isConnected(str[0] - 'a', str[3] - 'a'))
-                {
-                    return false;
-                }
-            }
-        }
-        
-        return true;
+    for (const auto &str : equations) {
+      if ('=' == str[1]) {
+        uf.Union(str[0] - 'a', str[3] - 'a');
+      }
     }
+    for (const auto &str : equations) {
+      if ('!' == str[1] && uf.Connected(str[0] - 'a', str[3] - 'a')) {
+        return false;
+      }
+    }
+    return true;
+  }
 };
 // @lc code=end
-
