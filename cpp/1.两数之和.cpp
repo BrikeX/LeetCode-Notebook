@@ -11,7 +11,7 @@
 
 class Solution {
  public:
-  std::vector<int> twoSum(const std::vector<int>& nums, const int target) {
+  std::vector<int> twoSum(const std::vector<int> &nums, const int target) {
     // hash table
     std::unordered_map<int, int> hash_table;
     const int num_size = static_cast<int>(nums.size());
