@@ -8,19 +8,15 @@
 #include <map>
 #include <vector>
 
-using namespace std;
-
 class Solution {
  public:
-  vector<int> twoSum(vector<int>& nums, int target) {
+  std::vector<int> twoSum(std::vector<int> &nums, int target) {
     std::map<int, int> num2index_map;
-    const int nums_size = static_cast<int>(nums.size());
 
-    for (int i = 0; i != nums_size; ++i) {
-      const int n = nums[i];
-      const auto it = num2index_map.find(target - n);
+    for (int i = 0; i != nums.size(); ++i) {
+      const auto it = num2index_map.find(target - nums[i]);
       if (num2index_map.cend() == it) {
-        num2index_map.emplace(n, i);
+        num2index_map.emplace(nums[i], i);
       } else {
         return {i, it->second};
       }
