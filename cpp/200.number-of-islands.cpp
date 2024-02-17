@@ -5,68 +5,120 @@
  */
 
 // @lc code=start
-#include <cstddef>
-#include <functional>
 #include <unordered_map>
-#include <utility>
 #include <vector>
 
-struct Node final {
-  Node() = default;
-  ~Node() = default;
-  Node(const int i, const int j) : row(i), col(j) {}
-  bool operator==(const Node &rhs) const {
-    return (row == rhs.row) && (col == rhs.col);
-  }
-  bool operator!=(const Node &rhs) const { return !(*this == rhs); }
+enum class GridType : char { kWater = '0', kLand = '1', kFoundLand = '2' };
 
-  int row = 0;
-  int col = 0;
+class Solution {
+ public:
+  int numIslands(std::vector<std::vector<char>> &grid) {
+    // return DFS(&grid);
+    return UnionFind(grid);
+  }
+
+ private:
+  int DFS(std::vector<std::vector<char>> *const grid) const;
+  void SearchLandByDFS(const int row, const int col,
+                       std::vector<std::vector<char>> *const grid) const;
+  int UnionFind(const std::vector<std::vector<char>> &grid) const;
+  bool IsLand(const std::vector<std::vector<char>> &grid, const int row,
+              const int col) const;
 };
 
-struct NodeHash {
-  std::size_t operator()(const Node &node) const {
-    return std::hash<int>()(node.row) ^ (std::hash<int>()(node.col) << 1);
+int Solution::DFS(std::vector<std::vector<char>> *const grid) const {
+  if (!grid) {
+    return 0;
   }
-};
+  int island_num = 0;
+  for (int i = 0; i < (*grid).size(); ++i) {
+    for (int j = 0; j < (*grid)[i].size(); ++j) {
+      if (static_cast<char>(GridType::kLand) != (*grid)[i][j]) {
+        continue;
+      }
+      SearchLandByDFS(i, j, grid);
+      ++island_num;
+    }
+  }
+  return island_num;
+}
+
+void Solution::SearchLandByDFS(
+    const int row, const int col,
+    std::vector<std::vector<char>> *const grid) const {
+  if (!grid) {
+    return;
+  }
+  if (!IsLand(*grid, row, col)) {
+    return;
+  }
+  (*grid)[row][col] = static_cast<char>(GridType::kFoundLand);
+  SearchLandByDFS(row - 1, col, grid);
+  SearchLandByDFS(row + 1, col, grid);
+  SearchLandByDFS(row, col - 1, grid);
+  SearchLandByDFS(row, col + 1, grid);
+}
+
+bool Solution::IsLand(const std::vector<std::vector<char>> &grid, const int row,
+                      const int col) const {
+  if (row < 0 || row >= grid.size()) {
+    return false;
+  }
+  if (col < 0 || col >= grid[row].size()) {
+    return false;
+  }
+  if (static_cast<char>(GridType::kLand) != grid[row][col]) {
+    return false;
+  }
+  return true;
+}
 
 class WeightedQuickUnionUF final {
  public:
-  WeightedQuickUnionUF(const std::vector<Node> &node_vec);
+  WeightedQuickUnionUF(const std::vector<std::vector<char>> &grid);
   ~WeightedQuickUnionUF() = default;
 
   int root_count() const { return root_count_; }
 
-  bool Connected(const Node &lhs, const Node &rhs) const;
-  bool Find(const Node &node, Node *parent_node) const;
-  void Union(const Node &lhs, const Node &rhs);
+  bool Connected(const int &lhs, const int &rhs) const;
+  bool Find(const int &node, int *const parent_node) const;
+  void Union(const int &lhs, const int &rhs);
 
  private:
-  std::unordered_map<Node, Node, NodeHash> parent_map_;
-  std::unordered_map<Node, int, NodeHash> union_size_;
-  int root_count_ = 0u;
+  std::unordered_map<int, int> parent_map_;
+  std::unordered_map<int, int> union_size_;
+  int root_count_ = 0;
 };
 
-WeightedQuickUnionUF::WeightedQuickUnionUF(const std::vector<Node> &node_vec) {
-  if (node_vec.empty()) {
+WeightedQuickUnionUF::WeightedQuickUnionUF(
+    const std::vector<std::vector<char>> &grid) {
+  root_count_ = 0;
+  if (grid.empty() || grid[0].empty()) {
     return;
   }
-  root_count_ = node_vec.size();
-  parent_map_.reserve(root_count_);
-  union_size_.reserve(root_count_);
-  for (const auto &node : node_vec) {
-    parent_map_[node] = node;
-    union_size_[node] = 1;
+  const auto grid_size = grid.size() * grid[0].size();
+  parent_map_.reserve(grid_size);
+  union_size_.reserve(grid_size);
+  int index = 0;
+  for (int i = 0; i < grid.size(); ++i) {
+    for (int j = 0; j < grid[i].size(); ++j) {
+      if (static_cast<char>(GridType::kLand) == grid[i][j]) {
+        parent_map_[index] = index;
+        union_size_[index] = 1;
+        ++root_count_;
+      }
+      ++index;
+    }
   }
 }
 
-bool WeightedQuickUnionUF::Connected(const Node &lhs, const Node &rhs) const {
-  Node lhs_root;
-  Node rhs_root;
+bool WeightedQuickUnionUF::Connected(const int &lhs, const int &rhs) const {
+  int lhs_root = 0;
+  int rhs_root = 0;
   return Find(lhs, &lhs_root) && Find(rhs, &rhs_root) && lhs_root == rhs_root;
 }
 
-bool WeightedQuickUnionUF::Find(const Node &node, Node *parent_node) const {
+bool WeightedQuickUnionUF::Find(const int &node, int *const parent_node) const {
   if (!parent_node) {
     return false;
   }
@@ -85,12 +137,12 @@ bool WeightedQuickUnionUF::Find(const Node &node, Node *parent_node) const {
   return true;
 }
 
-void WeightedQuickUnionUF::Union(const Node &lhs, const Node &rhs) {
-  Node lhs_root;
+void WeightedQuickUnionUF::Union(const int &lhs, const int &rhs) {
+  int lhs_root = 0;
   if (!Find(lhs, &lhs_root)) {
     return;
   }
-  Node rhs_root;
+  int rhs_root = 0;
   if (!Find(rhs, &rhs_root)) {
     return;
   }
@@ -113,119 +165,35 @@ void WeightedQuickUnionUF::Union(const Node &lhs, const Node &rhs) {
   --root_count_;
 }
 
-class Solution {
- public:
-  int numIslands(std::vector<std::vector<char>> &grid) {
-    return DFS(&grid);
-    // return UnionFind(grid);
-  }
-
- private:
-  int DFS(std::vector<std::vector<char>> *const grid) const;
-  void SearchLandByDFS(const int row, const int col,
-                       std::vector<std::vector<char>> *const grid) const;
-  int UnionFind(const std::vector<std::vector<char>> &grid) const;
-  bool IsLand(const std::vector<std::vector<char>> &grid, const int row,
-              const int col) const;
-
- private:
-  static constexpr char kWater = '0';
-  static constexpr char kLand = '1';
-  static constexpr char kFoundLand = '2';
-};
-
-int Solution::DFS(std::vector<std::vector<char>> *const grid) const {
-  if (!grid) {
-    return 0;
-  }
-  int island_num = 0;
-  for (int i = 0; i < (*grid).size(); ++i) {
-    for (int j = 0; j < (*grid)[i].size(); ++j) {
-      if (kLand != (*grid)[i][j]) {
-        continue;
-      }
-      SearchLandByDFS(i, j, grid);
-      ++island_num;
-    }
-  }
-  return island_num;
-}
-
-void Solution::SearchLandByDFS(
-    const int row, const int col,
-    std::vector<std::vector<char>> *const grid) const {
-  if (!grid) {
-    return;
-  }
-  if (!IsLand(*grid, row, col)) {
-    return;
-  }
-  (*grid)[row][col] = kFoundLand;
-  SearchLandByDFS(row - 1, col, grid);
-  SearchLandByDFS(row + 1, col, grid);
-  SearchLandByDFS(row, col - 1, grid);
-  SearchLandByDFS(row, col + 1, grid);
-}
-
-bool Solution::IsLand(const std::vector<std::vector<char>> &grid, const int row,
-                      const int col) const {
-  if (row < 0 || row >= grid.size()) {
-    return false;
-  }
-  if (col < 0 || col >= grid[row].size()) {
-    return false;
-  }
-  if (kLand != grid[row][col]) {
-    return false;
-  }
-  return true;
-}
-
 int Solution::UnionFind(const std::vector<std::vector<char>> &grid) const {
   if (grid.empty() || grid.front().empty()) {
     return 0;
   }
   const int row_size = grid.size();
   const int col_size = grid.front().size();
-  const int node_size = row_size * col_size;
-  if (1u == node_size) {
-    return kLand == grid[0][0] ? 1 : 0;
+  if (1 == row_size * col_size) {
+    return static_cast<char>(GridType::kLand) == grid[0][0] ? 1 : 0;
   }
-  std::vector<Node> land_vec;
-  land_vec.reserve(node_size);
-  std::vector<std::pair<Node, Node>> land_pair_vec;
-  land_pair_vec.reserve(node_size);
-
-  for (int i = 0; i != row_size; ++i) {
-    for (int j = 0; j != col_size; ++j) {
-      if (kLand != grid[i][j]) {
-        continue;
+  WeightedQuickUnionUF uf(grid);
+  int index = 0;
+  for (int i = 0; i < row_size; ++i) {
+    for (int j = 0; j < col_size; ++j) {
+      if (static_cast<char>(GridType::kLand) == grid[i][j]) {
+        if (IsLand(grid, i - 1, j)) {
+          uf.Union(index, (i - 1) * col_size + j);
+        }
+        if (IsLand(grid, i + 1, j)) {
+          uf.Union(index, (i + 1) * col_size + j);
+        }
+        if (IsLand(grid, i, j - 1)) {
+          uf.Union(index, i * col_size + (j - 1));
+        }
+        if (IsLand(grid, i, j + 1)) {
+          uf.Union(index, i * col_size + (j + 1));
+        }
       }
-      const Node curr_node(i, j);
-      land_vec.emplace_back(curr_node);
-      if (IsLand(grid, i - 1, j)) {
-        land_pair_vec.emplace_back(std::make_pair(curr_node, Node(i - 1, j)));
-      }
-      if (IsLand(grid, i + 1, j)) {
-        land_pair_vec.emplace_back(std::make_pair(curr_node, Node(i + 1, j)));
-      }
-      if (IsLand(grid, i, j - 1)) {
-        land_pair_vec.emplace_back(std::make_pair(curr_node, Node(i, j - 1)));
-      }
-      if (IsLand(grid, i, j + 1)) {
-        land_pair_vec.emplace_back(std::make_pair(curr_node, Node(i, j + 1)));
-      }
+      ++index;
     }
-  }
-  if (land_vec.empty()) {
-    return 0;
-  }
-  WeightedQuickUnionUF uf(land_vec);
-  for (const auto &land_pair : land_pair_vec) {
-    if (uf.Connected(land_pair.first, land_pair.second)) {
-      continue;
-    }
-    uf.Union(land_pair.first, land_pair.second);
   }
   return uf.root_count();
 }
