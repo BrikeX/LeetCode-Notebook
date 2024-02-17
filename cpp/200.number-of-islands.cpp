@@ -5,6 +5,8 @@
  */
 
 // @lc code=start
+#include <cstdlib>
+#include <queue>
 #include <unordered_map>
 #include <vector>
 
@@ -13,8 +15,9 @@ enum class GridType : char { kWater = '0', kLand = '1', kFoundLand = '2' };
 class Solution {
  public:
   int numIslands(std::vector<std::vector<char>> &grid) {
-    // return DFS(&grid);
-    return UnionFind(grid);
+    return DFS(&grid);
+    // return UnionFind(grid);
+    // return BFS(&grid);
   }
 
  private:
@@ -22,6 +25,9 @@ class Solution {
   void SearchLandByDFS(const int row, const int col,
                        std::vector<std::vector<char>> *const grid) const;
   int UnionFind(const std::vector<std::vector<char>> &grid) const;
+  int BFS(std::vector<std::vector<char>> *const grid) const;
+  void SearchLandByBFS(const int row, const int col,
+                       std::vector<std::vector<char>> *const grid) const;
   bool IsLand(const std::vector<std::vector<char>> &grid, const int row,
               const int col) const;
 };
@@ -33,7 +39,7 @@ int Solution::DFS(std::vector<std::vector<char>> *const grid) const {
   int island_num = 0;
   for (int i = 0; i < (*grid).size(); ++i) {
     for (int j = 0; j < (*grid)[i].size(); ++j) {
-      if (static_cast<char>(GridType::kLand) != (*grid)[i][j]) {
+      if (!IsLand(*grid, i, j)) {
         continue;
       }
       SearchLandByDFS(i, j, grid);
@@ -71,6 +77,62 @@ bool Solution::IsLand(const std::vector<std::vector<char>> &grid, const int row,
     return false;
   }
   return true;
+}
+
+int Solution::BFS(std::vector<std::vector<char>> *const grid) const {
+  if (!grid) {
+    return 0;
+  }
+  int island_num = 0;
+  for (int i = 0; i < (*grid).size(); ++i) {
+    for (int j = 0; j < (*grid)[i].size(); ++j) {
+      if (!IsLand(*grid, i, j)) {
+        continue;
+      }
+      SearchLandByBFS(i, j, grid);
+      ++island_num;
+    }
+  }
+  return island_num;
+}
+
+void Solution::SearchLandByBFS(
+    const int row, const int col,
+    std::vector<std::vector<char>> *const grid) const {
+  if (!grid || grid->empty() || grid->front().empty()) {
+    return;
+  }
+  if (!IsLand(*grid, row, col)) {
+    return;
+  }
+  const int col_size = grid->front().size();
+  const int source = row * col_size + col;
+  std::queue<int> frontier;
+  frontier.push(source);
+  (*grid)[row][col] = static_cast<char>(GridType::kFoundLand);
+  while (!frontier.empty()) {
+    const int node = frontier.front();
+    frontier.pop();
+    const int node_row = node / col_size;
+    const int node_col = node % col_size;
+    for (int i = -1; i <= 1; ++i) {
+      for (int j = -1; j <= 1; ++j) {
+        if (0 == i && 0 == j) {
+          continue;
+        }
+        if (2 == std::abs(i) + std::abs(j)) {
+          continue;
+        }
+        const int row_index = node_row + i;
+        const int col_index = node_col + j;
+        if (!IsLand(*grid, row_index, col_index)) {
+          continue;
+        }
+        (*grid)[row_index][col_index] = static_cast<char>(GridType::kFoundLand);
+        frontier.push(row_index * col_size + col_index);
+      }
+    }
+  }
 }
 
 class WeightedQuickUnionUF final {
