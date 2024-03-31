@@ -13,7 +13,7 @@ class Solution {
  public:
   int trap(std::vector<int>& height) {
     const int size = static_cast<int>(height.size());
-    if (size < 1) {
+    if (size < 2) {
       return 0;
     }
     int result = 0;
