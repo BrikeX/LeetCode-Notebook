@@ -5,7 +5,7 @@
  */
 
 // @lc code=start
-#include <cstddef>
+#include <iterator>
 #include <vector>
 
 class Solution {
@@ -19,7 +19,23 @@ class Solution {
     if (1 == row_size && 1 == col_size) {
       return target == matrix.front().front();
     }
-    int i = row_size - 1;
+    auto row_beg = matrix.begin();
+    auto row_end = matrix.end();
+    auto row_mid = row_beg + (row_end - row_beg) / 2;
+    while (row_end != row_mid) {
+      if (target == row_mid->front()) {
+        return true;
+      } else if (target < row_mid->front()) {
+        row_end = row_mid;
+      } else {
+        row_beg = row_mid + 1;
+      }
+      row_mid = row_beg + (row_end - row_beg) / 2;
+    }
+    if (matrix.begin() == row_mid) {
+      return false;
+    }
+    int i = std::distance(matrix.begin(), row_mid - 1);
     int j = 0;
     while (i >= 0 && j < col_size) {
       if (target < matrix[i][j]) {
