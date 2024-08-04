@@ -20,10 +20,14 @@
 
 class Solution {
  public:
-  std::vector<TreeNode *> allPossibleFBT(int n) { return DivideAndConquer(n); }
+  std::vector<TreeNode *> allPossibleFBT(int n) {
+    // return DivideAndConquer(n);
+    return DP(n);
+  }
 
  private:
   std::vector<TreeNode *> DivideAndConquer(const int n);
+  std::vector<TreeNode *> DP(const int n);
 };
 
 std::vector<TreeNode *> Solution::DivideAndConquer(const int n) {
@@ -41,11 +45,35 @@ std::vector<TreeNode *> Solution::DivideAndConquer(const int n) {
     const auto right_results = DivideAndConquer(n - 1 - i);
     for (const auto left_tree : left_results) {
       for (const auto right_tree : right_results) {
-        auto root = new TreeNode(0, left_tree, right_tree);
+        const auto root = new TreeNode(0, left_tree, right_tree);
         result.emplace_back(root);
       }
     }
   }
   return result;
 }
+
+std::vector<TreeNode *> Solution::DP(const int n) {
+  if (0 == n % 2) {
+    return {};
+  }
+  if (1 == n) {
+    return {new TreeNode(0)};
+  }
+  std::vector<std::vector<TreeNode *>> dp(n + 1);
+  dp[1] = {new TreeNode(0)};
+
+  for (int i = 3; i <= n; i += 2) {
+    for (int j = 1; j < i; j += 2) {
+      for (const auto lhs_tree : dp[j]) {
+        for (const auto rhs_tree : dp[i - j - 1]) {
+          const auto root = new TreeNode(0, lhs_tree, rhs_tree);
+          dp[i].emplace_back(root);
+        }
+      }
+    }
+  }
+  return dp[n];
+}
+
 // @lc code=end
