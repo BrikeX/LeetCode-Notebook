@@ -44,18 +44,17 @@ bool Solution::HashTable(ListNode *const head) {
 }
 
 bool Solution::TwoPointers(ListNode *const head) {
-  if (!head || !head->next) {
-    return false;
-  }
-  auto slow_node_ptr = head;
-  auto fast_node_ptr = head->next;
-  while (fast_node_ptr != slow_node_ptr) {
-    if (!fast_node_ptr->next || !fast_node_ptr->next->next) {
-      return false;
+  auto slow_ptr = head;
+  auto fast_ptr = head;
+
+  while (fast_ptr && fast_ptr->next) {
+    slow_ptr = slow_ptr->next;
+    fast_ptr = fast_ptr->next->next;
+
+    if (slow_ptr == fast_ptr) {
+      return true;
     }
-    slow_node_ptr = slow_node_ptr->next;
-    fast_node_ptr = fast_node_ptr->next->next;
   }
-  return true;
+  return false;
 }
 // @lc code=end
