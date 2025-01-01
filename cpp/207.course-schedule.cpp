@@ -13,11 +13,12 @@ enum class NodeState { kUnknown = 0, kSearching = 1, kFinished = 2 };
 class Solution {
  public:
   bool canFinish(int numCourses, std::vector<std::vector<int>>& prerequisites) {
-    edges_.reserve(prerequisites.size());
+    edges_.reserve(numCourses);
     node_states_.reserve(numCourses);
 
     for (int i = 0; i < numCourses; ++i) {
       node_states_[i] = NodeState::kUnknown;
+      edges_[i] = {};
     }
     for (const auto& prerequisite : prerequisites) {
       edges_[prerequisite[1]].emplace_back(prerequisite[0]);
@@ -40,14 +41,14 @@ class Solution {
 };
 
 void Solution::DFS(const int node) {
-  node_states_.at(node) = NodeState::kSearching;
-  const auto it = edges_.find(node);
-
-  if (edges_.cend() == it) {
-    node_states_.at(node) = NodeState::kFinished;
+  if (node_states_.cend() == node_states_.find(node) ||
+      edges_.cend() == edges_.find(node)) {
+    valid_ = false;
     return;
   }
-  for (const int neighbor : it->second) {
+  node_states_.at(node) = NodeState::kSearching;
+
+  for (const int neighbor : edges_.at(node)) {
     if (!valid_) {
       break;
     }
