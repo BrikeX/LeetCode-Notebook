@@ -40,7 +40,6 @@ class Solution {
   void PriorityQueue(const int k);
 
   void QuickSelect(int k, int lo, int hi);
-  int Partition(const int lo, const int hi);
 
  private:
   std::unordered_map<int, int> num_count_;
@@ -71,31 +70,6 @@ void Solution::PriorityQueue(const int k) {
     result_.emplace_back(count_pq.top().first);
     count_pq.pop();
   }
-}
-
-int Solution::Partition(const int lo, const int hi) {
-  auto i = lo;
-  auto j = hi + 1;
-  const auto val = num_count_.at(uni_nums_[lo]);
-
-  while (true) {
-    while (num_count_.at(uni_nums_[++i]) > val) {
-      if (hi == i) {
-        break;
-      }
-    }
-    while (num_count_.at(uni_nums_[--j]) < val) {
-      if (lo == j) {
-        break;
-      }
-    }
-    if (i >= j) {
-      break;
-    }
-    std::swap(uni_nums_[i], uni_nums_[j]);
-  }
-  std::swap(uni_nums_[lo], uni_nums_[j]);
-  return j;
 }
 
 void Solution::QuickSelect(int k, int lo, int hi) {
