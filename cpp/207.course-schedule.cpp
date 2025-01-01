@@ -42,19 +42,20 @@ class Solution {
 void Solution::DFS(const int node) {
   node_states_.at(node) = NodeState::kSearching;
   const auto it = edges_.find(node);
+
   if (edges_.cend() == it) {
-    node_states_[node] = NodeState::kFinished;
+    node_states_.at(node) = NodeState::kFinished;
     return;
   }
   for (const int neighbor : it->second) {
+    if (!valid_) {
+      break;
+    }
     if (NodeState::kUnknown == node_states_.at(neighbor)) {
       DFS(neighbor);
-      if (!valid_) {
-        return;
-      }
     } else if (NodeState::kSearching == node_states_.at(neighbor)) {
       valid_ = false;
-      return;
+      break;
     }
   }
   node_states_.at(node) = NodeState::kFinished;
